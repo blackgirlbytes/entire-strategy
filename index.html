@@ -1,0 +1,3587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Entire.io DevRel Strategy</title>
+ <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600&f[]=zodiak@700&display=swap">
+ <style>
+ /* ===========================================
+ CSS CUSTOM PROPERTIES (THEME)
+ Swiss Modern Style - Deep slate with accent colors
+ =========================================== */
+ :root {
+ --bg-slate: #0f172a;
+ --bg-card: #1e293b;
+ --text-light: #f8fafc;
+ --text-muted: #94a3b8;
+ --accent: #38bdf8;
+ --accent-secondary: #818cf8;
+ --accent-green: #34d399;
+ --accent-rose: #fb7185;
+ --font-display: 'Zodiak', serif;
+ --font-body: 'Switzer', sans-serif;
+ 
+ /* Responsive typography - LARGER */
+ --title-size: clamp(2.5rem, 7vw, 5rem);
+ --h2-size: clamp(2rem, 5vw, 3.5rem);
+ --h3-size: clamp(1.4rem, 3vw, 2rem);
+ --body-size: clamp(1rem, 1.8vw, 1.35rem);
+ --small-size: clamp(0.9rem, 1.4vw, 1.1rem);
+ --label-size: clamp(0.75rem, 1.2vw, 0.9rem);
+ 
+ /* Responsive spacing */
+ --slide-padding: clamp(2rem, 5vw, 5rem);
+ --content-gap: clamp(1rem, 2.5vw, 2rem);
+ }
+
+ /* ===========================================
+ BASE STYLES
+ =========================================== */
+ * {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ }
+
+ html {
+ scroll-behavior: smooth;
+ scroll-snap-type: y mandatory;
+ height: 100%;
+ }
+
+ body {
+ font-family: var(--font-body);
+ background: var(--bg-slate);
+ color: var(--text-light);
+ overflow-x: hidden;
+ height: 100%;
+ }
+
+ /* ===========================================
+ SLIDE CONTAINER
+ Each slide fits exactly in viewport
+ =========================================== */
+ .slide {
+ width: 100vw;
+ height: 100vh;
+ height: 100dvh;
+ scroll-snap-align: start;
+ position: relative;
+ overflow: hidden;
+ }
+
+ /* ===========================================
+ NAVIGATION DOTS
+ =========================================== */
+ .nav-dots {
+ position: fixed;
+ right: clamp(1rem, 2vw, 2rem);
+ top: 50%;
+ transform: translateY(-50%);
+ display: flex;
+ flex-direction: column;
+ gap: 0.75rem;
+ z-index: 100;
+ }
+
+ .nav-dot {
+ width: 10px;
+ height: 10px;
+ border-radius: 50%;
+ background: rgba(148, 163, 184, 0.3);
+ cursor: pointer;
+ transition: all 0.3s ease;
+ }
+
+ .nav-dot:hover {
+ background: rgba(148, 163, 184, 0.6);
+ }
+
+ .nav-dot.active {
+ background: var(--accent);
+ box-shadow: 0 0 10px var(--accent);
+ }
+
+ /* ===========================================
+ PROGRESS BAR
+ =========================================== */
+ .progress-bar {
+ position: fixed;
+ top: 0;
+ left: 0;
+ height: 3px;
+ background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+ width: 0%;
+ z-index: 100;
+ transition: width 0.3s ease;
+ }
+
+ /* ===========================================
+ SLIDE 1: TITLE SLIDE
+ Split layout with metrics
+ =========================================== */
+ .slide-title {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ }
+
+ @media (max-width: 768px) {
+ .slide-title {
+ grid-template-columns: 1fr;
+ grid-template-rows: auto 1fr;
+ }
+ }
+
+ .slide-title .left {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ padding: var(--slide-padding);
+ position: relative;
+ }
+
+ .slide-title .left::after {
+ content: '';
+ position: absolute;
+ right: 0;
+ top: 20%;
+ height: 60%;
+ width: 1px;
+ background: linear-gradient(to bottom, transparent, var(--text-muted), transparent);
+ opacity: 0.3;
+ }
+
+ @media (max-width: 768px) {
+ .slide-title .left::after {
+ display: none;
+ }
+ }
+
+ .label {
+ font-family: var(--font-body);
+ font-size: var(--label-size);
+ font-weight: 500;
+ text-transform: uppercase;
+ letter-spacing: 0.2em;
+ color: var(--accent);
+ margin-bottom: var(--content-gap);
+ opacity: 0;
+ animation: fadeIn 0.6s ease-out 0.2s forwards;
+ }
+
+ h1 {
+ font-family: var(--font-display);
+ font-size: var(--title-size);
+ font-weight: 700;
+ color: var(--text-light);
+ line-height: 1.15;
+ margin-bottom: var(--content-gap);
+ opacity: 0;
+ animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+ }
+
+ .subtitle {
+ font-family: var(--font-body);
+ font-size: var(--body-size);
+ color: var(--text-muted);
+ font-weight: 400;
+ line-height: 1.6;
+ max-width: 450px;
+ opacity: 0;
+ animation: fadeIn 0.6s ease-out 0.6s forwards;
+ }
+
+ .slide-title .right {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ padding: var(--slide-padding);
+ position: relative;
+ }
+
+ .metrics {
+ display: grid;
+ grid-template-columns: repeat(2, 1fr);
+ gap: clamp(1.5rem, 3vw, 2.5rem);
+ width: 100%;
+ max-width: 550px;
+ }
+
+ .metric {
+ background: var(--bg-card);
+ border-radius: clamp(1rem, 2vw, 1.5rem);
+ padding: clamp(1.5rem, 3vw, 2.5rem);
+ border: 1px solid rgba(148, 163, 184, 0.1);
+ opacity: 0;
+ animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+ }
+
+ .metric:nth-child(1) { animation-delay: 0.4s; }
+ .metric:nth-child(2) { animation-delay: 0.5s; }
+ .metric:nth-child(3) { animation-delay: 0.6s; }
+ .metric:nth-child(4) { animation-delay: 0.7s; }
+
+ .metric-value {
+ font-family: var(--font-body);
+ font-size: clamp(2.5rem, 5vw, 4rem);
+ font-weight: 600;
+ color: var(--text-light);
+ margin-bottom: 0.5rem;
+ }
+
+ .metric:nth-child(1) .metric-value { color: var(--accent); }
+ .metric:nth-child(2) .metric-value { color: var(--accent-secondary); }
+ .metric:nth-child(3) .metric-value { color: var(--accent-green); }
+ .metric:nth-child(4) .metric-value { color: var(--accent-rose); }
+
+ .metric-label {
+ font-family: var(--font-body);
+ font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+ color: var(--text-muted);
+ text-transform: uppercase;
+ letter-spacing: 0.1em;
+ }
+
+ /* ===========================================
+ SLIDE 2: VISION SLIDE
+ Centered quote style
+ =========================================== */
+ .slide-vision {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ padding: var(--slide-padding);
+ text-align: center;
+ }
+
+ .slide-vision .label {
+ animation: none;
+ opacity: 0;
+ }
+
+ .slide.visible .slide-vision .label {
+ animation: fadeIn 0.6s ease-out 0.2s forwards;
+ }
+
+ .vision-statement {
+ font-family: var(--font-display);
+ font-size: clamp(1.75rem, 4.5vw, 3.5rem);
+ font-weight: 700;
+ color: var(--text-light);
+ line-height: 1.3;
+ max-width: 1000px;
+ margin-bottom: clamp(2rem, 4vw, 3.5rem);
+ opacity: 0;
+ }
+
+ .slide.visible .vision-statement {
+ animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+ }
+
+ .mission-box {
+ background: var(--bg-card);
+ border-radius: clamp(1rem, 2vw, 1.5rem);
+ padding: clamp(2rem, 4vw, 3rem);
+ border: 1px solid rgba(56, 189, 248, 0.2);
+ border-left: 4px solid var(--accent);
+ max-width: 900px;
+ opacity: 0;
+ }
+
+ .slide.visible .mission-box {
+ animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+ }
+
+ .mission-label {
+ font-size: clamp(0.85rem, 1.3vw, 1rem);
+ font-weight: 500;
+ text-transform: uppercase;
+ letter-spacing: 0.15em;
+ color: var(--accent);
+ margin-bottom: 1rem;
+ }
+
+ .mission-text {
+ font-size: clamp(1.1rem, 2vw, 1.5rem);
+ color: var(--text-muted);
+ line-height: 1.6;
+ }
+
+ /* ===========================================
+ SLIDE 3: TARGET AUDIENCES
+ Three-column cards
+ =========================================== */
+ .slide-audiences {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ padding: var(--slide-padding);
+ }
+
+ .slide-audiences h2 {
+ font-family: var(--font-display);
+ font-size: var(--h2-size);
+ font-weight: 700;
+ color: var(--text-light);
+ margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+ text-align: center;
+ opacity: 0;
+ }
+
+ .slide.visible .slide-audiences h2 {
+ animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+ }
+
+ .audience-grid {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: clamp(1.5rem, 3vw, 2.5rem);
+ max-width: 1400px;
+ margin: 0 auto;
+ width: 100%;
+ }
+
+ @media (max-width: 900px) {
+ .audience-grid {
+ grid-template-columns: 1fr;
+ max-width: 600px;
+ }
+ }
+
+ .audience-card {
+ background: var(--bg-card);
+ border-radius: clamp(1rem, 2vw, 1.5rem);
+ padding: clamp(2rem, 3.5vw, 3rem);
+ border: 1px solid rgba(148, 163, 184, 0.1);
+ opacity: 0;
+ display: flex;
+ flex-direction: column;
+ }
+
+ .slide.visible .audience-card:nth-child(1) {
+ animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+ }
+ .slide.visible .audience-card:nth-child(2) {
+ animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+ }
+ .slide.visible .audience-card:nth-child(3) {
+ animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+ }
+
+ .audience-card.primary {
+ border-top: 4px solid var(--accent);
+ }
+
+ .audience-card.secondary {
+ border-top: 4px solid var(--accent-secondary);
+ }
+
+ .audience-card.tertiary {
+ border-top: 4px solid var(--accent-green);
+ }
+
+ .audience-priority {
+ font-size: clamp(0.85rem, 1.3vw, 1rem);
+ font-weight: 500;
+ text-transform: uppercase;
+ letter-spacing: 0.15em;
+ margin-bottom: 0.75rem;
+ }
+
+ .audience-card.primary .audience-priority { color: var(--accent); }
+ .audience-card.secondary .audience-priority { color: var(--accent-secondary); }
+ .audience-card.tertiary .audience-priority { color: var(--accent-green); }
+
+ .audience-title {
+ font-family: var(--font-display);
+ font-size: clamp(1.5rem, 2.5vw, 2rem);
+ font-weight: 700;
+ color: var(--text-light);
+ margin-bottom: 1rem;
+ line-height: 1.3;
+ }
+
+ .audience-why {
+ font-size: clamp(1rem, 1.5vw, 1.2rem);
+ color: var(--text-muted);
+ line-height: 1.7;
+ flex: 1;
+ }
+
+ /* ===========================================
+ SLIDE 4: CONTENT ANCHOR
+ Centered quote with highlight
+ =========================================== */
+ .slide-anchor {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ padding: var(--slide-padding);
+ text-align: center;
+ height: 100%;
+ }
+
+ .slide-anchor .label {
+ animation: none;
+ opacity: 0;
+ }
+
+ .slide.visible .slide-anchor .label {
+ animation: fadeIn 0.6s ease-out 0.2s forwards;
+ }
+
+ .anchor-intro {
+ font-size: clamp(1.1rem, 2vw, 1.5rem);
+ color: var(--text-muted);
+ margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+ opacity: 0;
+ }
+
+ .slide.visible .anchor-intro {
+ animation: fadeIn 0.6s ease-out 0.3s forwards;
+ }
+
+ .anchor-quote {
+ font-family: var(--font-display);
+ font-size: clamp(1.75rem, 4vw, 3rem);
+ font-weight: 700;
+ color: var(--text-light);
+ line-height: 1.4;
+ max-width: 1000px;
+ margin: 0 0 clamp(2rem, 4vw, 3.5rem) 0;
+ padding: 0;
+ border: none;
+ opacity: 0;
+ }
+
+ .slide.visible .anchor-quote {
+ animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+ }
+
+ .anchor-method {
+ background: var(--bg-card);
+ border-radius: clamp(1rem, 2vw, 1.5rem);
+ padding: clamp(1.5rem, 3vw, 2.5rem) clamp(2rem, 4vw, 3.5rem);
+ border: 1px solid rgba(148, 163, 184, 0.1);
+ max-width: 900px;
+ opacity: 0;
+ }
+
+ .slide.visible .anchor-method {
+ animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+ }
+
+ .anchor-method-text {
+ font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+ color: var(--text-muted);
+ line-height: 1.7;
+ }
+
+ .highlight {
+ color: var(--accent);
+ font-weight: 600;
+ }
+
+ .highlight-alt {
+ color: var(--accent-secondary);
+ font-weight: 600;
+ }
+
+ /* ===========================================
+ SLIDE 5: CONTENT PILLARS
+ Five-card grid
+ =========================================== */
+ .slide-pillars {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ padding: var(--slide-padding);
+ height: 100%;
+ }
+
+ .slide-pillars h2 {
+ font-family: var(--font-display);
+ font-size: var(--h2-size);
+ font-weight: 700;
+ color: var(--text-light);
+ margin-bottom: clamp(2rem, 4vw, 3.5rem);
+ text-align: center;
+ opacity: 0;
+ }
+
+ .slide.visible .slide-pillars h2 {
+ animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+ }
+
+ .pillars-grid {
+ display: grid;
+ grid-template-columns: repeat(5, 1fr);
+ gap: clamp(1rem, 2vw, 1.5rem);
+ max-width: 1400px;
+ width: 100%;
+ }
+
+ @media (max-width: 1100px) {
+ .pillars-grid {
+ grid-template-columns: repeat(3, 1fr);
+ }
+ }
+
+ @media (max-width: 700px) {
+ .pillars-grid {
+ grid-template-columns: repeat(2, 1fr);
+ }
+ }
+
+ .pillar-card {
+ background: var(--bg-card);
+ border-radius: clamp(1rem, 2vw, 1.5rem);
+ padding: clamp(1.5rem, 2.5vw, 2.5rem);
+ border: 1px solid rgba(148, 163, 184, 0.1);
+ text-align: center;
+ opacity: 0;
+ }
+
+ .slide.visible .pillar-card:nth-child(1) { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards; }
+ .slide.visible .pillar-card:nth-child(2) { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards; }
+ .slide.visible .pillar-card:nth-child(3) { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards; }
+ .slide.visible .pillar-card:nth-child(4) { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards; }
+ .slide.visible .pillar-card:nth-child(5) { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards; }
+
+ .pillar-number {
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ width: clamp(2.5rem, 4vw, 3.5rem);
+ height: clamp(2.5rem, 4vw, 3.5rem);
+ background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+ border-radius: 50%;
+ font-size: clamp(1.25rem, 2vw, 1.75rem);
+ font-weight: 600;
+ color: var(--bg-slate);
+ margin-bottom: clamp(1rem, 1.5vw, 1.5rem);
+ }
+
+ .pillar-title {
+ font-family: var(--font-display);
+ font-size: clamp(1.25rem, 2vw, 1.75rem);
+ font-weight: 700;
+ color: var(--text-light);
+ margin-bottom: 0.5rem;
+ }
+
+ .pillar-desc {
+ font-size: clamp(0.9rem, 1.3vw, 1.1rem);
+ color: var(--text-muted);
+ line-height: 1.5;
+ }
+
+ /* ===========================================
+ SLIDE 6: DOCUMENTATION
+ Split layout with workflow types
+ =========================================== */
+ .slide-docs {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ padding: var(--slide-padding);
+ height: 100%;
+ max-width: 1400px;
+ margin: 0 auto;
+ }
+
+ .docs-header {
+ margin-bottom: clamp(2rem, 3vw, 3rem);
+ }
+
+ .docs-header .label {
+ animation: none;
+ opacity: 0;
+ }
+
+ .slide.visible .docs-header .label {
+ animation: fadeIn 0.6s ease-out 0.2s forwards;
+ }
+
+ .docs-header h2 {
+ font-family: var(--font-display);
+ font-size: var(--h2-size);
+ font-weight: 700;
+ color: var(--text-light);
+ margin-bottom: clamp(1rem, 2vw, 1.5rem);
+ opacity: 0;
+ }
+
+ .slide.visible .docs-header h2 {
+ animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+ }
+
+ .docs-subtitle {
+ font-size: clamp(1rem, 1.6vw, 1.25rem);
+ color: var(--text-muted);
+ line-height: 1.7;
+ max-width: 900px;
+ opacity: 0;
+ }
+
+ .slide.visible .docs-subtitle {
+ animation: fadeIn 0.6s ease-out 0.5s forwards;
+ }
+
+ .docs-content {
+ display: grid;
+ grid-template-columns: auto 1fr;
+ gap: clamp(2rem, 4vw, 4rem);
+ align-items: start;
+ }
+
+ @media (max-width: 900px) {
+ .docs-content {
+ grid-template-columns: 1fr;
+ gap: clamp(1.5rem, 3vw, 2rem);
+ }
+ }
+
+ .docs-principles {
+ display: flex;
+ flex-direction: column;
+ gap: clamp(1rem, 2vw, 1.5rem);
+ opacity: 0;
+ }
+
+ .slide.visible .docs-principles {
+ animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+ }
+
+ .docs-principle {
+ display: flex;
+ align-items: center;
+ gap: clamp(0.75rem, 1.5vw, 1.25rem);
+ background: var(--bg-card);
+ padding: clamp(1rem, 2vw, 1.5rem) clamp(1.25rem, 2.5vw, 2rem);
+ border-radius: clamp(0.75rem, 1.5vw, 1rem);
+ border: 1px solid rgba(148, 163, 184, 0.1);
+ }
+
+ .principle-icon {
+ font-size: clamp(1.25rem, 2vw, 1.75rem);
+ }
+
+ .principle-text {
+ font-size: clamp(1rem, 1.5vw, 1.2rem);
+ color: var(--text-light);
+ font-weight: 500;
+ }
+
+ .workflow-types {
+ display: flex;
+ flex-direction: column;
+ gap: clamp(1rem, 2vw, 1.5rem);
+ opacity: 0;
+ }
+
+ .slide.visible .workflow-types {
+ animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
+ }
+
+ .workflow-item {
+ background: var(--bg-card);
+ padding: clamp(1.25rem, 2.5vw, 2rem);
+ border-radius: clamp(0.75rem, 1.5vw, 1rem);
+ border: 1px solid rgba(148, 163, 184, 0.1);
+ border-left: 4px solid var(--accent);
+ }
+
+ .workflow-item:nth-child(2) {
+ border-left-color: var(--accent-secondary);
+ }
+
+ .workflow-item:nth-child(3) {
+ border-left-color: var(--accent-green);
+ }
+
+ .workflow-label {
+ display: block;
+ font-family: var(--font-display);
+ font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+ font-weight: 700;
+ color: var(--text-light);
+ margin-bottom: 0.5rem;
+ }
+
+ .workflow-desc {
+ font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+ color: var(--text-muted);
+ line-height: 1.6;
+ }
+
+ 
+
+  /* ===========================================
+  SLIDE 3: DIGITAL ORGANIZATION
+  =========================================== */
+  .slide-digital {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--slide-padding);
+  height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  }
+
+  .digital-header { margin-bottom: clamp(1.5rem, 3vw, 2.5rem); }
+  .digital-header .label { animation: none; opacity: 0; }
+  .slide.visible .digital-header .label { animation: fadeIn 0.6s ease-out 0.2s forwards; }
+
+  .digital-header h2 {
+  font-family: var(--font-display);
+  font-size: var(--h2-size);
+  font-weight: 700;
+  margin-bottom: clamp(0.75rem, 1.5vw, 1.25rem);
+  opacity: 0;
+  }
+  .slide.visible .digital-header h2 { animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards; }
+
+  .digital-subtitle {
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 1050px;
+  opacity: 0;
+  }
+  .slide.visible .digital-subtitle { animation: fadeIn 0.6s ease-out 0.5s forwards; }
+
+  .digital-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(1rem, 2vw, 1.5rem);
+  margin-top: clamp(1.25rem, 2.5vw, 2rem);
+  opacity: 0;
+  }
+  .slide.visible .digital-grid { animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards; }
+
+  @media (max-width: 1000px) {
+  .digital-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+  .digital-grid { grid-template-columns: 1fr; }
+  }
+
+  .digital-card {
+  background: var(--bg-card);
+  border-radius: clamp(1rem, 2vw, 1.5rem);
+  padding: clamp(1.25rem, 2.2vw, 1.75rem);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  }
+
+  .digital-icon { font-size: clamp(1.3rem, 2.2vw, 1.8rem); margin-bottom: 0.75rem; }
+  .digital-title { font-family: var(--font-display); font-size: clamp(1.15rem, 1.8vw, 1.45rem); margin-bottom: 0.5rem; }
+  .digital-desc { font-size: clamp(0.95rem, 1.35vw, 1.1rem); color: var(--text-muted); line-height: 1.55; }
+
+  .digital-loop {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(0.5rem, 1vw, 1rem);
+  margin-top: clamp(1.1rem, 2.3vw, 1.6rem);
+  opacity: 0;
+  flex-wrap: wrap;
+  }
+  .slide.visible .digital-loop { animation: fadeIn 0.6s ease-out 0.8s forwards; }
+
+  .loop-item {
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  color: var(--text-light);
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
+  }
+  .loop-arrow { color: var(--accent); opacity: 0.8; }
+
+  /* ===========================================
+  SLIDE 4: PIGGYBACK DISTRIBUTION
+  =========================================== */
+  .slide-piggyback {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--slide-padding);
+  height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  }
+
+  .piggyback-header { margin-bottom: clamp(1.5rem, 3vw, 2.5rem); }
+  .piggyback-header .label { animation: none; opacity: 0; }
+  .piggyback-header h2 { font-family: var(--font-display); font-size: var(--h2-size); font-weight: 700; margin-bottom: clamp(0.75rem, 1.5vw, 1.25rem); opacity: 0; }
+  .piggyback-subtitle { font-size: clamp(1rem, 1.6vw, 1.2rem); color: var(--text-muted); line-height: 1.7; max-width: 1050px; opacity: 0; }
+
+  .slide.visible .piggyback-header .label { animation: fadeIn 0.6s ease-out 0.2s forwards; }
+  .slide.visible .piggyback-header h2 { animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards; }
+  .slide.visible .piggyback-subtitle { animation: fadeIn 0.6s ease-out 0.5s forwards; }
+
+  .piggyback-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1rem, 2vw, 1.5rem);
+  opacity: 0;
+  }
+  .slide.visible .piggyback-grid { animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.65s forwards; }
+  @media (max-width: 900px) { .piggyback-grid { grid-template-columns: 1fr; } }
+
+  .piggyback-card {
+  background: var(--bg-card);
+  border-radius: clamp(1rem, 2vw, 1.5rem);
+  padding: clamp(1.35rem, 2.5vw, 2rem);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  }
+
+  .piggyback-title { font-family: var(--font-display); font-size: clamp(1.2rem, 2vw, 1.6rem); margin-bottom: 0.75rem; }
+  .piggyback-list { margin-left: 1.25rem; display: flex; flex-direction: column; gap: 0.45rem; }
+  .piggyback-list li { font-size: clamp(0.95rem, 1.35vw, 1.1rem); color: var(--text-muted); line-height: 1.5; }
+
+  /* ===========================================
+  SLIDE 13: FIELD STRATEGY
+  =========================================== */
+  .slide-field {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--slide-padding);
+  height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  }
+
+  .field-header { margin-bottom: clamp(1.25rem, 2.5vw, 2rem); }
+  .field-header .label { animation: none; opacity: 0; }
+  .field-header h2 { font-family: var(--font-display); font-size: var(--h2-size); font-weight: 700; margin-bottom: clamp(0.75rem, 1.5vw, 1.25rem); opacity: 0; }
+  .field-subtitle { font-size: clamp(1rem, 1.6vw, 1.2rem); color: var(--text-muted); line-height: 1.7; max-width: 1100px; opacity: 0; }
+
+  .slide.visible .field-header .label { animation: fadeIn 0.6s ease-out 0.2s forwards; }
+  .slide.visible .field-header h2 { animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards; }
+  .slide.visible .field-subtitle { animation: fadeIn 0.6s ease-out 0.5s forwards; }
+
+  .field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1rem, 2vw, 1.5rem);
+  opacity: 0;
+  }
+  .slide.visible .field-grid { animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.65s forwards; }
+  @media (max-width: 900px) { .field-grid { grid-template-columns: 1fr; } }
+
+  .field-card {
+  background: var(--bg-card);
+  border-radius: clamp(1rem, 2vw, 1.5rem);
+  padding: clamp(1.35rem, 2.5vw, 2rem);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  }
+
+  .field-title { font-family: var(--font-display); font-size: clamp(1.2rem, 2vw, 1.6rem); margin-bottom: 0.75rem; }
+  .field-list { margin-left: 1.25rem; display: flex; flex-direction: column; gap: 0.45rem; }
+  .field-list li { font-size: clamp(0.95rem, 1.35vw, 1.1rem); color: var(--text-muted); line-height: 1.5; }
+
+  .field-note {
+  margin-top: clamp(1rem, 2vw, 1.5rem);
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(129, 140, 248, 0.10));
+  border: 1px solid rgba(56, 189, 248, 0.18);
+  border-radius: clamp(1rem, 2vw, 1.5rem);
+  padding: clamp(1rem, 2vw, 1.5rem);
+  opacity: 0;
+  }
+  .slide.visible .field-note { animation: fadeIn 0.6s ease-out 0.9s forwards; }
+  .field-note-strong { color: var(--accent); font-weight: 700; margin-right: 0.35rem; }
+
+  /* ===========================================
+  SLIDE 16: AMBASSADORS
+  =========================================== */
+  .slide-ambassadors {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--slide-padding);
+  height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  }
+
+  .amb-header { margin-bottom: clamp(1.25rem, 2.5vw, 2rem); }
+  .amb-header .label { animation: none; opacity: 0; }
+  .amb-header h2 { font-family: var(--font-display); font-size: var(--h2-size); font-weight: 700; margin-bottom: clamp(0.75rem, 1.5vw, 1.25rem); opacity: 0; }
+  .amb-subtitle { font-size: clamp(1rem, 1.6vw, 1.2rem); color: var(--text-muted); line-height: 1.7; max-width: 1100px; opacity: 0; }
+
+  .slide.visible .amb-header .label { animation: fadeIn 0.6s ease-out 0.2s forwards; }
+  .slide.visible .amb-header h2 { animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards; }
+  .slide.visible .amb-subtitle { animation: fadeIn 0.6s ease-out 0.5s forwards; }
+
+  .amb-flow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(0.9rem, 1.6vw, 1.25rem);
+  opacity: 0;
+  }
+  .slide.visible .amb-flow { animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.65s forwards; }
+
+  @media (max-width: 1100px) {
+  .amb-flow { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 650px) {
+  .amb-flow { grid-template-columns: 1fr; }
+  }
+
+  .amb-step {
+  background: var(--bg-card);
+  border-radius: clamp(1rem, 2vw, 1.5rem);
+  padding: clamp(1.15rem, 2vw, 1.6rem);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  }
+
+  .amb-step-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  }
+
+  .amb-step-body {
+  font-size: clamp(0.95rem, 1.35vw, 1.1rem);
+  color: var(--text-muted);
+  line-height: 1.55;
+  }
+
+  .amb-cta {
+  margin-top: clamp(1rem, 2vw, 1.5rem);
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.10), rgba(56, 189, 248, 0.10));
+  border: 1px solid rgba(52, 211, 153, 0.18);
+  border-radius: clamp(1rem, 2vw, 1.5rem);
+  padding: clamp(1rem, 2vw, 1.5rem);
+  opacity: 0;
+  }
+
+  .slide.visible .amb-cta { animation: fadeIn 0.6s ease-out 0.95s forwards; }
+
+  .amb-cta-title { color: var(--accent-green); font-weight: 700; margin-bottom: 0.35rem; }
+  .amb-cta-body { color: var(--text-muted); line-height: 1.55; font-size: clamp(0.95rem, 1.35vw, 1.1rem); }
+
+  /* ===========================================
+  SLIDE: EDUCATION PLATFORM DISTRIBUTION
+  =========================================== */
+  .slide-education {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--slide-padding);
+  height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  }
+
+  .edu-header { margin-bottom: clamp(1.5rem, 3vw, 2.5rem); }
+  .edu-header .label { animation: none; opacity: 0; }
+  .edu-header h2 { font-family: var(--font-display); font-size: var(--h2-size); font-weight: 700; margin-bottom: clamp(0.75rem, 1.5vw, 1.25rem); opacity: 0; }
+  .edu-subtitle { font-size: clamp(1rem, 1.6vw, 1.2rem); color: var(--text-muted); line-height: 1.7; max-width: 1050px; opacity: 0; }
+
+  .slide.visible .edu-header .label { animation: fadeIn 0.6s ease-out 0.2s forwards; }
+  .slide.visible .edu-header h2 { animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards; }
+  .slide.visible .edu-subtitle { animation: fadeIn 0.6s ease-out 0.5s forwards; }
+
+  .edu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1rem, 2vw, 1.5rem);
+  opacity: 0;
+  }
+  .slide.visible .edu-grid { animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.65s forwards; }
+  @media (max-width: 900px) { .edu-grid { grid-template-columns: 1fr; } }
+
+  .edu-card {
+  background: var(--bg-card);
+  border-radius: clamp(1rem, 2vw, 1.5rem);
+  padding: clamp(1.5rem, 2.5vw, 2rem);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  }
+
+  .edu-icon { font-size: clamp(1.5rem, 2.5vw, 2rem); margin-bottom: 0.75rem; }
+  .edu-title { font-family: var(--font-display); font-size: clamp(1.2rem, 2vw, 1.6rem); margin-bottom: 0.5rem; }
+  .edu-desc { font-size: clamp(0.95rem, 1.35vw, 1.1rem); color: var(--text-muted); line-height: 1.55; }
+
+  .edu-note {
+  margin-top: clamp(1rem, 2vw, 1.5rem);
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(129, 140, 248, 0.10));
+  border: 1px solid rgba(56, 189, 248, 0.18);
+  border-radius: clamp(1rem, 2vw, 1.5rem);
+  padding: clamp(1rem, 2vw, 1.5rem);
+  opacity: 0;
+  font-size: clamp(0.95rem, 1.35vw, 1.1rem);
+  color: var(--text-muted);
+  line-height: 1.55;
+  }
+  .slide.visible .edu-note { animation: fadeIn 0.6s ease-out 0.9s forwards; }
+  .edu-note-strong { color: var(--accent); font-weight: 700; margin-right: 0.35rem; }
+
+  /* ===========================================
+  SLIDE: LEARNING PATH / COURSE
+  =========================================== */
+  .slide-learning-path {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--slide-padding);
+  height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  }
+
+  .lp-header { margin-bottom: clamp(1.5rem, 3vw, 2.5rem); }
+  .lp-header .label { animation: none; opacity: 0; }
+  .lp-header h2 { font-family: var(--font-display); font-size: var(--h2-size); font-weight: 700; margin-bottom: clamp(0.75rem, 1.5vw, 1.25rem); opacity: 0; }
+  .lp-subtitle { font-size: clamp(1rem, 1.6vw, 1.2rem); color: var(--text-muted); line-height: 1.7; max-width: 1050px; opacity: 0; }
+
+  .slide.visible .lp-header .label { animation: fadeIn 0.6s ease-out 0.2s forwards; }
+  .slide.visible .lp-header h2 { animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards; }
+  .slide.visible .lp-subtitle { animation: fadeIn 0.6s ease-out 0.5s forwards; }
+
+  .lp-flow {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 1.5vw, 1.15rem);
+  opacity: 0;
+  }
+  .slide.visible .lp-flow { animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.65s forwards; }
+
+  .lp-step {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  background: var(--bg-card);
+  border-radius: clamp(0.75rem, 1.5vw, 1rem);
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  }
+
+  .lp-step-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(2rem, 3vw, 2.5rem);
+  height: clamp(2rem, 3vw, 2.5rem);
+  background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+  border-radius: 50%;
+  font-weight: 700;
+  color: var(--bg-slate);
+  flex-shrink: 0;
+  font-size: clamp(0.9rem, 1.3vw, 1.1rem);
+  }
+
+  .lp-step-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  }
+
+  .lp-step-desc {
+  font-size: clamp(0.9rem, 1.3vw, 1.05rem);
+  color: var(--text-muted);
+  line-height: 1.5;
+  }
+
+  .lp-note {
+  margin-top: clamp(1rem, 2vw, 1.5rem);
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.10), rgba(56, 189, 248, 0.10));
+  border: 1px solid rgba(52, 211, 153, 0.18);
+  border-radius: clamp(1rem, 2vw, 1.5rem);
+  padding: clamp(1rem, 2vw, 1.5rem);
+  opacity: 0;
+  font-size: clamp(0.95rem, 1.35vw, 1.1rem);
+  color: var(--text-muted);
+  line-height: 1.55;
+  }
+  .slide.visible .lp-note { animation: fadeIn 0.6s ease-out 0.9s forwards; }
+  .lp-note-strong { color: var(--accent-green); font-weight: 700; margin-right: 0.35rem; }
+
+
+  .amb-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  align-items: start;
+  }
+  @media (max-width: 900px) {
+  .amb-content { grid-template-columns: 1fr; }
+  }
+
+  .amb-left, .amb-right { display: flex; flex-direction: column; gap: clamp(0.75rem, 1.5vw, 1.25rem); }
+
+  .amb-requirements, .amb-perks {
+  background: var(--bg-card);
+  border-radius: clamp(0.75rem, 1.5vw, 1rem);
+  padding: clamp(1.1rem, 2vw, 1.6rem);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  opacity: 0;
+  }
+  .slide.visible .amb-requirements { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.75s forwards; }
+  .slide.visible .amb-perks { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.85s forwards; }
+
+  .amb-requirements { border-left: 4px solid var(--accent-secondary); }
+  .amb-perks { border-left: 4px solid var(--accent-green); }
+
+  .amb-req-title, .amb-perks-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  font-weight: 700;
+  margin-bottom: clamp(0.5rem, 1vw, 0.75rem);
+  }
+  .amb-req-title { color: var(--accent-secondary); }
+  .amb-perks-title { color: var(--accent-green); }
+
+  .amb-req-list, .amb-perks-list {
+  margin-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  }
+  .amb-req-list li, .amb-perks-list li {
+  font-size: clamp(0.9rem, 1.3vw, 1.05rem);
+  color: var(--text-muted);
+  line-height: 1.5;
+  }
+
+
+  /* ===========================================
+  SLIDE 6: AI-NATIVE / AGENT-READY DOCS
+  =========================================== */
+  .slide-docs-ai {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--slide-padding);
+  height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  }
+
+  .docs-ai-header { margin-bottom: clamp(1.5rem, 3vw, 2.5rem); }
+  .docs-ai-header .label { animation: none; opacity: 0; }
+  .slide.visible .docs-ai-header .label { animation: fadeIn 0.6s ease-out 0.2s forwards; }
+
+  .docs-ai-header h2 {
+  font-family: var(--font-display);
+  font-size: var(--h2-size);
+  font-weight: 700;
+  color: var(--text-light);
+  margin-bottom: clamp(0.75rem, 1.5vw, 1.25rem);
+  opacity: 0;
+  }
+  .slide.visible .docs-ai-header h2 { animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards; }
+
+  .docs-ai-subtitle {
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 1050px;
+  opacity: 0;
+  }
+  .slide.visible .docs-ai-subtitle { animation: fadeIn 0.6s ease-out 0.5s forwards; }
+
+  .docs-ai-content {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: clamp(1.5rem, 3.5vw, 3rem);
+  align-items: start;
+  }
+  @media (max-width: 900px) {
+  .docs-ai-content { grid-template-columns: 1fr; }
+  }
+
+  .docs-ai-links {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  opacity: 0;
+  }
+  .slide.visible .docs-ai-links { animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards; }
+
+  .docs-ai-link {
+  display: block;
+  background: linear-gradient(135deg, var(--bg-card), rgba(56, 189, 248, 0.06));
+  border: 1px solid rgba(56, 189, 248, 0.18);
+  border-radius: clamp(0.75rem, 1.5vw, 1rem);
+  padding: clamp(1.1rem, 2.1vw, 1.6rem);
+  color: var(--text-light);
+  text-decoration: none;
+  transition: border-color 0.3s ease;
+  }
+  .docs-ai-link:hover { border-color: rgba(56, 189, 248, 0.45); }
+
+  .docs-ai-link-title {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1.9vw, 1.5rem);
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  }
+
+  .docs-ai-link-desc {
+  display: block;
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  line-height: 1.55;
+  color: var(--text-muted);
+  }
+
+  .docs-ai-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 1.5vw, 1.15rem);
+  opacity: 0;
+  }
+  .slide.visible .docs-ai-list { animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards; }
+
+  .docs-ai-item {
+  display: flex;
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  align-items: flex-start;
+  background: var(--bg-card);
+  border-radius: clamp(0.75rem, 1.5vw, 1rem);
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  }
+
+  .docs-ai-bullet {
+  flex: 0 0 auto;
+  color: var(--accent);
+  font-weight: 700;
+  padding-top: 0.1rem;
+  }
+
+  .docs-ai-text {
+  font-size: clamp(0.95rem, 1.45vw, 1.15rem);
+  color: var(--text-light);
+  line-height: 1.6;
+  }
+
+
+/* ===========================================
+ SLIDE 7: LIVESTREAMS
+ Three cards + benefits section
+ =========================================== */
+ .slide-livestreams {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ padding: var(--slide-padding);
+ height: 100%;
+ max-width: 1400px;
+ margin: 0 auto;
+ }
+
+ .livestreams-header {
+ margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+ }
+
+ .livestreams-header .label {
+ animation: none;
+ opacity: 0;
+ }
+
+ .slide.visible .livestreams-header .label {
+ animation: fadeIn 0.6s ease-out 0.2s forwards;
+ }
+
+ .livestreams-header h2 {
+ font-family: var(--font-display);
+ font-size: var(--h2-size);
+ font-weight: 700;
+ color: var(--text-light);
+ opacity: 0;
+ }
+
+ .slide.visible .livestreams-header h2 {
+ animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+ }
+
+ .livestreams-grid {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: clamp(1rem, 2vw, 1.5rem);
+ margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+ }
+
+ @media (max-width: 900px) {
+ .livestreams-grid {
+ grid-template-columns: 1fr;
+ }
+ }
+
+ .livestream-card {
+ background: var(--bg-card);
+ border-radius: clamp(1rem, 2vw, 1.5rem);
+ padding: clamp(1.5rem, 2.5vw, 2rem);
+ border: 1px solid rgba(148, 163, 184, 0.1);
+ opacity: 0;
+ }
+
+ .livestream-card.featured {
+ border: 1px solid rgba(56, 189, 248, 0.3);
+ background: linear-gradient(135deg, var(--bg-card), rgba(56, 189, 248, 0.05));
+ }
+
+ .slide.visible .livestream-card:nth-child(1) { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards; }
+ .slide.visible .livestream-card:nth-child(2) { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards; }
+ .slide.visible .livestream-card:nth-child(3) { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards; }
+
+ .livestream-type {
+ font-family: var(--font-display);
+ font-size: clamp(1.25rem, 2vw, 1.6rem);
+ font-weight: 700;
+ color: var(--text-light);
+ margin-bottom: 0.75rem;
+ }
+
+ .livestream-format {
+ font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+ color: var(--text-muted);
+ line-height: 1.6;
+ margin-bottom: 1rem;
+ }
+
+ .livestream-goal {
+ font-size: clamp(0.9rem, 1.3vw, 1rem);
+ color: var(--text-muted);
+ }
+
+ .goal-label {
+ color: var(--accent);
+ font-weight: 600;
+ }
+
+ .interviews-benefits {
+ background: var(--bg-card);
+ border-radius: clamp(1rem, 2vw, 1.5rem);
+ padding: clamp(1.5rem, 2.5vw, 2rem);
+ border: 1px solid rgba(148, 163, 184, 0.1);
+ opacity: 0;
+ }
+
+ .slide.visible .interviews-benefits {
+ animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
+ }
+
+ .benefits-title {
+ font-size: clamp(1rem, 1.5vw, 1.2rem);
+ font-weight: 600;
+ color: var(--accent);
+ margin-bottom: 1rem;
+ }
+
+ .benefits-list {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 0.75rem;
+ margin-bottom: 1rem;
+ }
+
+ .benefit {
+ background: rgba(56, 189, 248, 0.1);
+ color: var(--text-light);
+ padding: 0.5rem 1rem;
+ border-radius: 2rem;
+ font-size: clamp(0.85rem, 1.2vw, 1rem);
+ }
+
+ .benefits-note {
+ font-size: clamp(0.9rem, 1.3vw, 1.05rem);
+ color: var(--text-muted);
+ line-height: 1.6;
+ }
+
+ /* ===========================================
+ SLIDE 8: VIDEO CONTENT
+ Two cards + categories
+ =========================================== */
+ .slide-video {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ padding: var(--slide-padding);
+ height: 100%;
+ }
+
+ .video-header {
+ text-align: center;
+ margin-bottom: clamp(2rem, 4vw, 3rem);
+ }
+
+ .video-header .label {
+ animation: none;
+ opacity: 0;
+ }
+
+ .slide.visible .video-header .label {
+ animation: fadeIn 0.6s ease-out 0.2s forwards;
+ }
+
+ .video-header h2 {
+ font-family: var(--font-display);
+ font-size: var(--h2-size);
+ font-weight: 700;
+ color: var(--text-light);
+ opacity: 0;
+ }
+
+ .slide.visible .video-header h2 {
+ animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+ }
+
+ .video-note {
+ font-size: clamp(1rem, 1.6vw, 1.25rem);
+ color: var(--accent);
+ font-style: italic;
+ margin-top: clamp(0.5rem, 1vw, 0.75rem);
+ opacity: 0;
+ }
+
+ .slide.visible .video-note {
+ animation: fadeIn 0.6s ease-out 0.5s forwards;
+ }
+
+ .video-grid {
+ display: grid;
+ grid-template-columns: repeat(2, 1fr);
+ gap: clamp(1.5rem, 3vw, 2.5rem);
+ max-width: 900px;
+ width: 100%;
+ margin-bottom: clamp(2rem, 4vw, 3rem);
+ }
+
+ @media (max-width: 700px) {
+ .video-grid {
+ grid-template-columns: 1fr;
+ }
+ }
+
+ .video-card {
+ background: var(--bg-card);
+ border-radius: clamp(1rem, 2vw, 1.5rem);
+ padding: clamp(2rem, 3.5vw, 3rem);
+ border: 1px solid rgba(148, 163, 184, 0.1);
+ text-align: center;
+ opacity: 0;
+ }
+
+ .video-card.tutorials {
+ border-top: 4px solid var(--accent);
+ }
+
+ .video-card.shorts {
+ border-top: 4px solid var(--accent-secondary);
+ }
+
+ .slide.visible .video-card:nth-child(1) { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards; }
+ .slide.visible .video-card:nth-child(2) { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards; }
+
+ .video-icon {
+ font-size: clamp(2.5rem, 4vw, 3.5rem);
+ margin-bottom: 1rem;
+ }
+
+ .video-type {
+ font-family: var(--font-display);
+ font-size: clamp(1.5rem, 2.5vw, 2rem);
+ font-weight: 700;
+ color: var(--text-light);
+ margin-bottom: 0.75rem;
+ }
+
+ .video-purpose {
+ font-size: clamp(1rem, 1.5vw, 1.2rem);
+ color: var(--text-muted);
+ line-height: 1.6;
+ }
+
+ .shorts-categories {
+ background: var(--bg-card);
+ border-radius: clamp(1rem, 2vw, 1.5rem);
+ padding: clamp(1.5rem, 3vw, 2.5rem);
+ border: 1px solid rgba(148, 163, 184, 0.1);
+ max-width: 900px;
+ width: 100%;
+ opacity: 0;
+ }
+
+ .slide.visible .shorts-categories {
+ animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+ }
+
+ .categories-title {
+ font-size: clamp(1rem, 1.5vw, 1.2rem);
+ font-weight: 600;
+ color: var(--accent-secondary);
+ margin-bottom: 1rem;
+ }
+
+ .categories-list {
+ display: flex;
+ flex-direction: column;
+ gap: 0.75rem;
+ }
+
+ .category-item {
+ display: flex;
+ align-items: flex-start;
+ gap: 0.75rem;
+ }
+
+ .category-bullet {
+ color: var(--accent-secondary);
+ font-weight: 600;
+ font-size: clamp(1rem, 1.5vw, 1.2rem);
+ }
+
+ .category-text {
+ font-size: clamp(1rem, 1.5vw, 1.15rem);
+ color: var(--text-muted);
+ line-height: 1.5;
+ }
+
+ /* ===========================================
+ SLIDE 9: BLOG POSTS
+ Centered with example posts
+ =========================================== */
+ .slide-blog {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ padding: var(--slide-padding);
+ height: 100%;
+ }
+
+ .blog-header {
+ text-align: center;
+ margin-bottom: clamp(2rem, 4vw, 3.5rem);
+ max-width: 800px;
+ }
+
+ .blog-header .label {
+ animation: none;
+ opacity: 0;
+ }
+
+ .slide.visible .blog-header .label {
+ animation: fadeIn 0.6s ease-out 0.2s forwards;
+ }
+
+ .blog-header h2 {
+ font-family: var(--font-display);
+ font-size: var(--h2-size);
+ font-weight: 700;
+ color: var(--text-light);
+ margin-bottom: clamp(1rem, 2vw, 1.5rem);
+ opacity: 0;
+ }
+
+ .slide.visible .blog-header h2 {
+ animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+ }
+
+ .blog-subtitle {
+ font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+ color: var(--text-muted);
+ line-height: 1.6;
+ opacity: 0;
+ }
+
+ .slide.visible .blog-subtitle {
+ animation: fadeIn 0.6s ease-out 0.5s forwards;
+ }
+
+ .blog-examples {
+ max-width: 800px;
+ width: 100%;
+ }
+
+ .examples-title {
+ font-size: clamp(1rem, 1.5vw, 1.2rem);
+ font-weight: 600;
+ color: var(--accent);
+ margin-bottom: clamp(1rem, 2vw, 1.5rem);
+ opacity: 0;
+ }
+
+ .slide.visible .examples-title {
+ animation: fadeIn 0.6s ease-out 0.6s forwards;
+ }
+
+ .example-posts {
+ display: flex;
+ flex-direction: column;
+ gap: clamp(1rem, 2vw, 1.5rem);
+ }
+
+ .example-post {
+ background: var(--bg-card);
+ border-radius: clamp(1rem, 2vw, 1.5rem);
+ padding: clamp(1.5rem, 2.5vw, 2rem);
+ border: 1px solid rgba(148, 163, 184, 0.1);
+ display: flex;
+ align-items: center;
+ gap: 1rem;
+ opacity: 0;
+ }
+
+ .slide.visible .example-post:nth-child(1) { animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards; }
+ .slide.visible .example-post:nth-child(2) { animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards; }
+ .slide.visible .example-post:nth-child(3) { animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards; }
+
+ .post-title {
+ font-family: var(--font-display);
+ font-size: clamp(1.25rem, 2vw, 1.6rem);
+ font-weight: 700;
+ color: var(--text-light);
+ line-height: 1.3;
+ }
+
+ /* ===========================================
+ SLIDE 10: CONTENT REPURPOSING
+ Flow diagram style
+ =========================================== */
+ .slide-repurpose {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ padding: var(--slide-padding);
+ height: 100%;
+ }
+
+ .repurpose-header {
+ text-align: center;
+ margin-bottom: clamp(2rem, 4vw, 3rem);
+ }
+
+ .repurpose-header .label {
+ animation: none;
+ opacity: 0;
+ }
+
+ .slide.visible .repurpose-header .label {
+ animation: fadeIn 0.6s ease-out 0.2s forwards;
+ }
+
+ .repurpose-header h2 {
+ font-family: var(--font-display);
+ font-size: var(--h2-size);
+ font-weight: 700;
+ color: var(--text-light);
+ margin-bottom: clamp(0.75rem, 1.5vw, 1rem);
+ opacity: 0;
+ }
+
+ .slide.visible .repurpose-header h2 {
+ animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+ }
+
+ .repurpose-quote {
+ font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+ color: var(--accent);
+ font-style: italic;
+ opacity: 0;
+ }
+
+ .slide.visible .repurpose-quote {
+ animation: fadeIn 0.6s ease-out 0.5s forwards;
+ }
+
+ .repurpose-content {
+ max-width: 1000px;
+ width: 100%;
+ }
+
+ .repurpose-intro {
+ font-size: clamp(1rem, 1.5vw, 1.2rem);
+ color: var(--text-muted);
+ text-align: center;
+ margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+ opacity: 0;
+ }
+
+ .slide.visible .repurpose-intro {
+ animation: fadeIn 0.6s ease-out 0.6s forwards;
+ }
+
+ .repurpose-flow {
+ display: flex;
+ align-items: center;
+ gap: clamp(1.5rem, 3vw, 2.5rem);
+ margin-bottom: clamp(1.5rem, 3vw, 2rem);
+ opacity: 0;
+ }
+
+ .slide.visible .repurpose-flow {
+ animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
+ }
+
+ @media (max-width: 800px) {
+ .repurpose-flow {
+ flex-direction: column;
+ }
+ .flow-arrow {
+ transform: rotate(90deg);
+ }
+ }
+
+ .flow-source {
+ background: var(--bg-card);
+ border-radius: clamp(1rem, 2vw, 1.5rem);
+ padding: clamp(1.5rem, 2.5vw, 2rem);
+ border: 2px solid var(--accent);
+ min-width: 280px;
+ text-align: center;
+ }
+
+ .flow-label {
+ display: block;
+ font-size: clamp(0.8rem, 1.2vw, 0.95rem);
+ color: var(--accent);
+ text-transform: uppercase;
+ letter-spacing: 0.1em;
+ margin-bottom: 0.5rem;
+ }
+
+ .flow-title {
+ font-family: var(--font-display);
+ font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+ font-weight: 700;
+ color: var(--text-light);
+ }
+
+ .flow-arrow {
+ font-size: clamp(2rem, 3vw, 3rem);
+ color: var(--accent);
+ }
+
+ .flow-outputs {
+ display: flex;
+ flex-direction: column;
+ gap: 0.75rem;
+ flex: 1;
+ }
+
+ .flow-output {
+ background: var(--bg-card);
+ border-radius: 0.75rem;
+ padding: clamp(0.75rem, 1.5vw, 1rem) clamp(1rem, 2vw, 1.5rem);
+ border: 1px solid rgba(148, 163, 184, 0.1);
+ font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+ color: var(--text-light);
+ }
+
+ .output-detail {
+ color: var(--text-muted);
+ font-size: 0.9em;
+ }
+
+ .repurpose-note {
+ font-size: clamp(1rem, 1.5vw, 1.15rem);
+ color: var(--text-muted);
+ text-align: center;
+ opacity: 0;
+ }
+
+ .slide.visible .repurpose-note {
+ animation: fadeIn 0.6s ease-out 0.9s forwards;
+ }
+
+ /* ===========================================
+ SLIDE 11: COMMUNITY
+ Two-column Discord + Twitter
+ =========================================== */
+ .slide-community {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ padding: var(--slide-padding);
+ height: 100%;
+ max-width: 1400px;
+ margin: 0 auto;
+ }
+
+ .community-header {
+ margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+ text-align: center;
+ }
+
+ .community-header .label {
+ animation: none;
+ opacity: 0;
+ }
+
+ .slide.visible .community-header .label {
+ animation: fadeIn 0.6s ease-out 0.2s forwards;
+ }
+
+ .community-header h2 {
+ font-family: var(--font-display);
+ font-size: var(--h2-size);
+ font-weight: 700;
+ color: var(--text-light);
+ margin-bottom: clamp(0.5rem, 1vw, 0.75rem);
+ opacity: 0;
+ }
+
+ .slide.visible .community-header h2 {
+ animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+ }
+
+ .community-quote {
+ font-size: clamp(1rem, 1.6vw, 1.25rem);
+ color: var(--accent);
+ font-style: italic;
+ opacity: 0;
+ }
+
+ .slide.visible .community-quote {
+ animation: fadeIn 0.6s ease-out 0.5s forwards;
+ }
+
+ .community-grid {
+ display: grid;
+ grid-template-columns: 1.2fr 0.8fr;
+ gap: clamp(1.5rem, 3vw, 2.5rem);
+ }
+
+ @media (max-width: 900px) {
+ .community-grid {
+ grid-template-columns: 1fr;
+ }
+ }
+
+ .community-section {
+ background: var(--bg-card);
+ border-radius: clamp(1rem, 2vw, 1.5rem);
+ padding: clamp(1.5rem, 2.5vw, 2rem);
+ border: 1px solid rgba(148, 163, 184, 0.1);
+ opacity: 0;
+ }
+
+ .slide.visible .community-section.discord {
+ animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+ }
+
+ .slide.visible .community-section.twitter {
+ animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
+ }
+
+ .section-title {
+ font-family: var(--font-display);
+ font-size: clamp(1.25rem, 2vw, 1.6rem);
+ font-weight: 700;
+ color: var(--text-light);
+ margin-bottom: 0.5rem;
+ }
+
+ .section-subtitle {
+ font-size: clamp(0.9rem, 1.3vw, 1.05rem);
+ color: var(--text-muted);
+ margin-bottom: 1rem;
+ }
+
+ .channel-list {
+ display: flex;
+ flex-direction: column;
+ gap: 0.5rem;
+ }
+
+ .channel {
+ display: flex;
+ align-items: baseline;
+ gap: 0.75rem;
+ padding: 0.4rem 0;
+ border-bottom: 1px solid rgba(148, 163, 184, 0.05);
+ }
+
+ .channel.highlight {
+ background: rgba(56, 189, 248, 0.05);
+ padding: 0.5rem 0.75rem;
+ margin: 0 -0.75rem;
+ border-radius: 0.5rem;
+ border-bottom: none;
+ }
+
+ .channel-name {
+ font-family: monospace;
+ font-size: clamp(0.85rem, 1.2vw, 1rem);
+ color: var(--accent);
+ white-space: nowrap;
+ }
+
+ .channel-desc {
+ font-size: clamp(0.8rem, 1.1vw, 0.95rem);
+ color: var(--text-muted);
+ }
+
+ .twitter-points {
+ display: flex;
+ flex-direction: column;
+ gap: 0.75rem;
+ margin-bottom: 1.5rem;
+ }
+
+ .twitter-point {
+ font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+ color: var(--text-light);
+ padding-left: 1.25rem;
+ position: relative;
+ }
+
+ .twitter-point::before {
+ content: '→';
+ position: absolute;
+ left: 0;
+ color: var(--accent-secondary);
+ }
+
+ .why-matters {
+ background: rgba(129, 140, 248, 0.1);
+ padding: 1rem;
+ border-radius: 0.75rem;
+ }
+
+ .why-title {
+ font-size: clamp(0.9rem, 1.2vw, 1rem);
+ font-weight: 600;
+ color: var(--accent-secondary);
+ margin-bottom: 0.5rem;
+ }
+
+ .why-item {
+ font-size: clamp(0.85rem, 1.1vw, 0.95rem);
+ color: var(--text-muted);
+ margin-bottom: 0.25rem;
+ }
+
+ .why-item .highlight {
+ color: var(--accent);
+ }
+
+ /* ===========================================
+ SLIDE 12: CONFERENCES & EVENTS
+ Three cards + note
+ =========================================== */
+ .slide-events {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ padding: var(--slide-padding);
+ height: 100%;
+ }
+
+ .events-header {
+ text-align: center;
+ margin-bottom: clamp(2rem, 4vw, 3rem);
+ max-width: 900px;
+ }
+
+ .events-header .label {
+ animation: none;
+ opacity: 0;
+ }
+
+ .slide.visible .events-header .label {
+ animation: fadeIn 0.6s ease-out 0.2s forwards;
+ }
+
+ .events-header h2 {
+ font-family: var(--font-display);
+ font-size: var(--h2-size);
+ font-weight: 700;
+ color: var(--text-light);
+ margin-bottom: clamp(0.75rem, 1.5vw, 1rem);
+ opacity: 0;
+ }
+
+ .slide.visible .events-header h2 {
+ animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+ }
+
+ .events-target {
+ font-size: clamp(1rem, 1.5vw, 1.2rem);
+ color: var(--text-muted);
+ opacity: 0;
+ }
+
+ .slide.visible .events-target {
+ animation: fadeIn 0.6s ease-out 0.5s forwards;
+ }
+
+ .events-target .highlight {
+ color: var(--accent);
+ font-weight: 600;
+ }
+
+ .events-grid {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: clamp(1.5rem, 3vw, 2.5rem);
+ max-width: 1100px;
+ width: 100%;
+ margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+ }
+
+ @media (max-width: 800px) {
+ .events-grid {
+ grid-template-columns: 1fr;
+ max-width: 500px;
+ }
+ }
+
+ .event-card {
+ background: var(--bg-card);
+ border-radius: clamp(1rem, 2vw, 1.5rem);
+ padding: clamp(2rem, 3vw, 2.5rem);
+ border: 1px solid rgba(148, 163, 184, 0.1);
+ text-align: center;
+ opacity: 0;
+ }
+
+ .slide.visible .event-card:nth-child(1) { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards; }
+ .slide.visible .event-card:nth-child(2) { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards; }
+ .slide.visible .event-card:nth-child(3) { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards; }
+
+ .event-icon {
+ font-size: clamp(2.5rem, 4vw, 3.5rem);
+ margin-bottom: 1rem;
+ }
+
+ .event-type {
+ font-family: var(--font-display);
+ font-size: clamp(1.25rem, 2vw, 1.6rem);
+ font-weight: 700;
+ color: var(--text-light);
+ margin-bottom: 0.75rem;
+ }
+
+ .event-desc {
+ font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+ color: var(--text-muted);
+ line-height: 1.6;
+ }
+
+ .events-note {
+ background: var(--bg-card);
+ border-radius: clamp(1rem, 2vw, 1.5rem);
+ padding: clamp(1.25rem, 2.5vw, 2rem);
+ border: 1px solid rgba(148, 163, 184, 0.1);
+ max-width: 700px;
+ text-align: center;
+ opacity: 0;
+ }
+
+ .slide.visible .events-note {
+ animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
+ }
+
+ .events-note p {
+ font-size: clamp(1rem, 1.5vw, 1.15rem);
+ color: var(--text-muted);
+ line-height: 1.6;
+ }
+
+ /* ===========================================
+ SLIDE 13: PARTNERSHIPS
+ Three partner cards
+ =========================================== */
+ .slide-partnerships {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ padding: var(--slide-padding);
+ height: 100%;
+ }
+
+ .partnerships-header {
+ text-align: center;
+ margin-bottom: clamp(2rem, 4vw, 3rem);
+ }
+
+ .partnerships-header .label {
+ animation: none;
+ opacity: 0;
+ }
+
+ .slide.visible .partnerships-header .label {
+ animation: fadeIn 0.6s ease-out 0.2s forwards;
+ }
+
+ .partnerships-header h2 {
+ font-family: var(--font-display);
+ font-size: var(--h2-size);
+ font-weight: 700;
+ color: var(--text-light);
+ margin-bottom: clamp(0.75rem, 1.5vw, 1rem);
+ opacity: 0;
+ }
+
+ .slide.visible .partnerships-header h2 {
+ animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+ }
+
+ .partnerships-quote {
+ font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+ color: var(--accent);
+ font-style: italic;
+ opacity: 0;
+ }
+
+ .slide.visible .partnerships-quote {
+ animation: fadeIn 0.6s ease-out 0.5s forwards;
+ }
+
+ .partners-grid {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: clamp(1.5rem, 3vw, 2.5rem);
+ max-width: 1100px;
+ width: 100%;
+ }
+
+ @media (max-width: 800px) {
+ .partners-grid {
+ grid-template-columns: 1fr;
+ max-width: 500px;
+ }
+ }
+
+ .partner-card {
+ background: var(--bg-card);
+ border-radius: clamp(1rem, 2vw, 1.5rem);
+ padding: clamp(2rem, 3vw, 2.5rem);
+ border: 1px solid rgba(148, 163, 184, 0.1);
+ opacity: 0;
+ }
+
+ .partner-card:nth-child(1) {
+ border-top: 4px solid var(--accent);
+ }
+
+ .partner-card:nth-child(2) {
+ border-top: 4px solid var(--accent-secondary);
+ }
+
+ .partner-card:nth-child(3) {
+ border-top: 4px solid var(--accent-green);
+ }
+
+ .slide.visible .partner-card:nth-child(1) { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards; }
+ .slide.visible .partner-card:nth-child(2) { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards; }
+ .slide.visible .partner-card:nth-child(3) { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards; }
+
+ .partner-type {
+ font-family: var(--font-display);
+ font-size: clamp(1.25rem, 2vw, 1.6rem);
+ font-weight: 700;
+ color: var(--text-light);
+ margin-bottom: 0.5rem;
+ }
+
+ .partner-examples {
+ font-size: clamp(1rem, 1.5vw, 1.2rem);
+ color: var(--accent);
+ margin-bottom: 1rem;
+ }
+
+ .partner-angle {
+ font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+ color: var(--text-muted);
+ line-height: 1.6;
+ }
+
+ .angle-label {
+ color: var(--text-light);
+ font-weight: 500;
+ }
+
+ /* ===========================================
+ SLIDE 14: OPERATIONAL EFFICIENCY
+ Flow + breakdown
+ =========================================== */
+ .slide-ops {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ padding: var(--slide-padding);
+ height: 100%;
+ max-width: 1200px;
+ margin: 0 auto;
+ }
+
+ .ops-header {
+ text-align: center;
+ margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+ }
+
+ .ops-header .label {
+ animation: none;
+ opacity: 0;
+ }
+
+ .slide.visible .ops-header .label {
+ animation: fadeIn 0.6s ease-out 0.2s forwards;
+ }
+
+ .ops-header h2 {
+ font-family: var(--font-display);
+ font-size: var(--h2-size);
+ font-weight: 700;
+ color: var(--text-light);
+ margin-bottom: clamp(0.5rem, 1vw, 0.75rem);
+ opacity: 0;
+ }
+
+ .slide.visible .ops-header h2 {
+ animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+ }
+
+ .ops-quote {
+ font-size: clamp(1rem, 1.6vw, 1.25rem);
+ color: var(--accent);
+ font-style: italic;
+ opacity: 0;
+ }
+
+ .slide.visible .ops-quote {
+ animation: fadeIn 0.6s ease-out 0.5s forwards;
+ }
+
+ .ops-content {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: clamp(2rem, 4vw, 3rem);
+ align-items: start;
+ }
+
+ @media (max-width: 900px) {
+ .ops-content {
+ grid-template-columns: 1fr;
+ }
+ }
+
+ .ops-flow {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ opacity: 0;
+ }
+
+ .slide.visible .ops-flow {
+ animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+ }
+
+ .ops-trigger {
+ background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+ border-radius: 1rem;
+ padding: clamp(1rem, 2vw, 1.5rem) clamp(2rem, 3vw, 3rem);
+ margin-bottom: 1rem;
+ }
+
+ .trigger-label {
+ font-family: var(--font-display);
+ font-size: clamp(1.25rem, 2vw, 1.5rem);
+ font-weight: 700;
+ color: var(--bg-slate);
+ }
+
+ .ops-arrow {
+ font-size: clamp(1.5rem, 2.5vw, 2rem);
+ color: var(--accent);
+ margin-bottom: 1rem;
+ }
+
+ .ops-outputs {
+ display: flex;
+ flex-direction: column;
+ gap: 0.75rem;
+ width: 100%;
+ }
+
+ .ops-output {
+ background: var(--bg-card);
+ border-radius: 0.75rem;
+ padding: clamp(0.75rem, 1.5vw, 1rem) clamp(1rem, 2vw, 1.5rem);
+ border: 1px solid rgba(148, 163, 184, 0.1);
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ gap: 1rem;
+ flex-wrap: wrap;
+ }
+
+ .ops-output.auto {
+ border-left: 3px solid var(--accent-green);
+ }
+
+ .ops-output.manual {
+ border-left: 3px solid var(--accent-rose);
+ }
+
+ .output-name {
+ font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+ color: var(--text-light);
+ font-weight: 500;
+ }
+
+ .output-tag {
+ background: rgba(52, 211, 153, 0.2);
+ color: var(--accent-green);
+ padding: 0.25rem 0.75rem;
+ border-radius: 1rem;
+ font-size: clamp(0.75rem, 1vw, 0.85rem);
+ font-weight: 500;
+ }
+
+ .output-detail {
+ font-size: clamp(0.8rem, 1.1vw, 0.9rem);
+ color: var(--text-muted);
+ }
+
+ .ops-breakdown {
+ display: flex;
+ flex-direction: column;
+ gap: 1.5rem;
+ opacity: 0;
+ }
+
+ .slide.visible .ops-breakdown {
+ animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
+ }
+
+ .breakdown-section {
+ background: var(--bg-card);
+ border-radius: clamp(1rem, 2vw, 1.5rem);
+ padding: clamp(1.25rem, 2.5vw, 2rem);
+ border: 1px solid rgba(148, 163, 184, 0.1);
+ }
+
+ .breakdown-section.ai {
+ border-left: 4px solid var(--accent-green);
+ }
+
+ .breakdown-section.human {
+ border-left: 4px solid var(--accent-secondary);
+ }
+
+ .breakdown-title {
+ font-family: var(--font-display);
+ font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+ font-weight: 700;
+ margin-bottom: 0.75rem;
+ }
+
+ .breakdown-section.ai .breakdown-title {
+ color: var(--accent-green);
+ }
+
+ .breakdown-section.human .breakdown-title {
+ color: var(--accent-secondary);
+ }
+
+ .breakdown-list {
+ list-style: none;
+ display: flex;
+ flex-direction: column;
+ gap: 0.5rem;
+ }
+
+ .breakdown-list li {
+ font-size: clamp(0.9rem, 1.3vw, 1.05rem);
+ color: var(--text-muted);
+ padding-left: 1.25rem;
+ position: relative;
+ }
+
+ .breakdown-list li::before {
+ content: '•';
+ position: absolute;
+ left: 0;
+ color: var(--text-muted);
+ }
+
+ /* ===========================================
+ SLIDE 15: SUMMARY
+ Six-item grid
+ =========================================== */
+ .slide-summary {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ padding: var(--slide-padding);
+ height: 100%;
+ }
+
+ .summary-header {
+ text-align: center;
+ margin-bottom: clamp(2rem, 4vw, 3rem);
+ }
+
+ .summary-header .label {
+ animation: none;
+ opacity: 0;
+ }
+
+ .slide.visible .summary-header .label {
+ animation: fadeIn 0.6s ease-out 0.2s forwards;
+ }
+
+ .summary-header h2 {
+ font-family: var(--font-display);
+ font-size: var(--h2-size);
+ font-weight: 700;
+ color: var(--text-light);
+ opacity: 0;
+ }
+
+ .slide.visible .summary-header h2 {
+ animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+ }
+
+ .summary-grid {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: clamp(1rem, 2vw, 1.5rem);
+ max-width: 1200px;
+ width: 100%;
+ }
+
+ @media (max-width: 900px) {
+ .summary-grid {
+ grid-template-columns: repeat(2, 1fr);
+ }
+ }
+
+ @media (max-width: 600px) {
+ .summary-grid {
+ grid-template-columns: 1fr;
+ }
+ }
+
+ .summary-item {
+ background: var(--bg-card);
+ border-radius: clamp(1rem, 2vw, 1.5rem);
+ padding: clamp(1.5rem, 2.5vw, 2rem);
+ border: 1px solid rgba(148, 163, 184, 0.1);
+ opacity: 0;
+ }
+
+ .slide.visible .summary-item:nth-child(1) { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards; }
+ .slide.visible .summary-item:nth-child(2) { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards; }
+ .slide.visible .summary-item:nth-child(3) { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards; }
+ .slide.visible .summary-item:nth-child(4) { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards; }
+ .slide.visible .summary-item:nth-child(5) { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards; }
+ .slide.visible .summary-item:nth-child(6) { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards; }
+
+ .summary-pillar {
+ display: block;
+ font-family: var(--font-display);
+ font-size: clamp(1.25rem, 2vw, 1.6rem);
+ font-weight: 700;
+ color: var(--accent);
+ margin-bottom: 0.5rem;
+ }
+
+ .summary-item:nth-child(2) .summary-pillar { color: var(--accent-secondary); }
+ .summary-item:nth-child(3) .summary-pillar { color: var(--accent-green); }
+ .summary-item:nth-child(4) .summary-pillar { color: var(--accent-rose); }
+ .summary-item:nth-child(5) .summary-pillar { color: #fbbf24; }
+ .summary-item:nth-child(6) .summary-pillar { color: #a78bfa; }
+
+ .summary-focus {
+ font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+ color: var(--text-muted);
+ line-height: 1.6;
+ }
+
+ /* ===========================================
+ ANIMATIONS
+ =========================================== */
+ @keyframes fadeIn {
+ from { opacity: 0; }
+ to { opacity: 1; }
+ }
+
+ @keyframes slideIn {
+ from {
+ opacity: 0;
+ transform: translateX(-30px);
+ }
+ to {
+ opacity: 1;
+ transform: translateX(0);
+ }
+ }
+
+ @keyframes slideUp {
+ from {
+ opacity: 0;
+ transform: translateY(30px);
+ }
+ to {
+ opacity: 1;
+ transform: translateY(0);
+ }
+ }
+
+ @keyframes scaleIn {
+ from {
+ opacity: 0;
+ transform: scale(0.9);
+ }
+ to {
+ opacity: 1;
+ transform: scale(1);
+ }
+ }
+
+ /* ===========================================
+ REDUCED MOTION
+ =========================================== */
+ @media (prefers-reduced-motion: reduce) {
+ *, *::before, *::after {
+ animation-duration: 0.01ms !important;
+ transition-duration: 0.2s !important;
+ }
+ html {
+ scroll-behavior: auto;
+ }
+ }
+
+ /* ===========================================
+ SLIDE 12: ASK-AI BOT
+ =========================================== */
+ .slide-ask-ai {
+ display: flex;
+ flex-direction: column;
+ height: 100%;
+ padding: var(--slide-padding);
+ padding-right: calc(var(--slide-padding) + 2rem);
+ }
+
+ .ask-ai-header {
+ text-align: center;
+ margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+ }
+
+ .ask-ai-header h2 {
+ font-family: var(--font-display);
+ font-size: var(--h2-size);
+ color: var(--accent);
+ margin: 0.5rem 0;
+ }
+
+ .ask-ai-subtitle {
+ font-size: var(--body-size);
+ color: var(--text-muted);
+ max-width: 600px;
+ margin: 0 auto;
+ }
+
+ .ask-ai-content {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: clamp(2rem, 4vw, 4rem);
+ flex: 1;
+ align-items: center;
+ max-width: 1400px;
+ margin: 0 auto;
+ width: 100%;
+ }
+
+ .ask-ai-how,
+ .ask-ai-benefits {
+ background: var(--bg-card);
+ border-radius: 1rem;
+ padding: clamp(1.5rem, 3vw, 2.5rem);
+ height: 100%;
+ display: flex;
+ flex-direction: column;
+ }
+
+ .how-title,
+ .benefits-heading {
+ font-family: var(--font-display);
+ font-size: var(--h3-size);
+ color: var(--text-light);
+ margin-bottom: clamp(1rem, 2vw, 1.5rem);
+ }
+
+ .how-steps {
+ display: flex;
+ flex-direction: column;
+ gap: clamp(1rem, 2vw, 1.5rem);
+ flex: 1;
+ }
+
+ .how-step {
+ display: flex;
+ align-items: flex-start;
+ gap: clamp(0.75rem, 1.5vw, 1.25rem);
+ }
+
+ .step-number {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ width: clamp(2rem, 3vw, 2.5rem);
+ height: clamp(2rem, 3vw, 2.5rem);
+ background: var(--accent);
+ color: var(--bg-slate);
+ border-radius: 50%;
+ font-weight: 600;
+ font-size: var(--body-size);
+ flex-shrink: 0;
+ }
+
+ .step-text {
+ font-size: var(--body-size);
+ color: var(--text-light);
+ line-height: 1.5;
+ padding-top: 0.25rem;
+ }
+
+ .step-text .highlight {
+ color: var(--accent);
+ font-weight: 600;
+ }
+
+ .benefit-items {
+ display: flex;
+ flex-direction: column;
+ gap: clamp(1rem, 2vw, 1.5rem);
+ flex: 1;
+ }
+
+ .benefit-item {
+ display: flex;
+ align-items: flex-start;
+ gap: clamp(0.75rem, 1.5vw, 1rem);
+ }
+
+ .benefit-icon {
+ font-size: clamp(1.5rem, 2.5vw, 2rem);
+ flex-shrink: 0;
+ }
+
+ .benefit-text {
+ font-size: var(--body-size);
+ color: var(--text-light);
+ line-height: 1.5;
+ }
+
+ /* ===========================================
+ SHORT VIEWPORT ADJUSTMENTS
+ =========================================== */
+ @media (max-height: 600px) {
+ :root {
+ --slide-padding: clamp(1rem, 3vw, 2rem);
+ --content-gap: clamp(0.5rem, 1.5vw, 1rem);
+ }
+ .nav-dots {
+ display: none;
+ }
+ }
+ </style>
+</head>
+<body>
+ <!-- Progress Bar -->
+ <div class="progress-bar"></div>
+
+ <!-- Navigation Dots -->
+ <nav class="nav-dots"></nav>
+
+ <!-- ===========================================
+ SLIDE 1: TITLE SLIDE
+ =========================================== -->
+ <section class="slide slide-title visible" data-slide="1">
+ <div class="left">
+ <p class="label">2026 Strategy</p>
+ <h1>Entire.io DevRel Strategy</h1>
+ <p class="subtitle">Be the home for developers building with agents through content, community, and showing up where they are.</p>
+ </div>
+ <div class="right">
+ <div class="metrics">
+ <div class="metric">
+ <div class="metric-value">4</div>
+ <div class="metric-label">Channels</div>
+ </div>
+ <div class="metric">
+ <div class="metric-value">3</div>
+ <div class="metric-label">Audiences</div>
+ </div>
+ <div class="metric">
+ <div class="metric-value">2</div>
+ <div class="metric-label">Regions</div>
+ </div>
+ <div class="metric">
+ <div class="metric-value">∞</div>
+ <div class="metric-label">Impact</div>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ 
+
+<section class="slide" data-slide="2">
+ <div class="slide-audiences">
+ <h2>Target Audiences</h2>
+ <div class="audience-grid">
+ <div class="audience-card primary">
+ <p class="audience-priority">Primary</p>
+ <h3 class="audience-title">Developers building with agents</h3>
+ <p class="audience-why">They have the pain today. They're vocal, experimental, and will pull Entire into teams as adoption spreads.</p>
+ </div>
+ <div class="audience-card secondary">
+ <p class="audience-priority">Secondary</p>
+ <h3 class="audience-title">Teams using agents together</h3>
+ <p class="audience-why">Coming next as companies adopt agents more broadly. Not first priority since they're still figuring it out.</p>
+ </div>
+ <div class="audience-card tertiary">
+ <p class="audience-priority">Tertiary</p>
+ <h3 class="audience-title">People building agents</h3>
+ <p class="audience-why">Smaller audience, but high leverage since their users become Entire users.</p>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ 
+
+<section class="slide" data-slide="3">
+<div class="slide-digital">
+<div class="digital-header">
+<p class="label">Operating System</p>
+<h2>How We Organize & Engage Digitally</h2>
+<p class="digital-subtitle">Our goal is a simple loop: documentation and content drive discovery, Discord captures real workflows, and socials amplify what the community is building.</p>
+</div>
+
+<div class="digital-grid">
+<div class="digital-card">
+<div class="digital-icon">📚</div>
+<h3 class="digital-title">Docs</h3>
+<p class="digital-desc">Source of truth. Updated with each release. Optimized for humans and agents.</p>
+</div>
+<div class="digital-card">
+<div class="digital-icon">🎥</div>
+<h3 class="digital-title">Content</h3>
+<p class="digital-desc">Video, livestreams, blogs. Teach workflows and show Entire in action.</p>
+</div>
+<div class="digital-card">
+<div class="digital-icon">💬</div>
+<h3 class="digital-title">Discord</h3>
+<p class="digital-desc">Community hub. #share-your-work surfaces champions and future ambassadors.</p>
+</div>
+<div class="digital-card">
+<div class="digital-icon">🗣</div>
+<h3 class="digital-title">Socials</h3>
+<p class="digital-desc">Daily engagement. Repurpose learnings and participate in agent ecosystem conversations.</p>
+</div>
+</div>
+
+<div class="digital-loop">
+<span class="loop-item">Discover</span>
+<span class="loop-arrow">→</span>
+<span class="loop-item">Build</span>
+<span class="loop-arrow">→</span>
+<span class="loop-item">Share</span>
+<span class="loop-arrow">→</span>
+<span class="loop-item">Amplify</span>
+<span class="loop-arrow">→</span>
+<span class="loop-item">Improve</span>
+</div>
+</div>
+</section>
+
+
+<section class="slide" data-slide="4">
+<div class="slide-piggyback">
+<div class="piggyback-header">
+<p class="label">Distribution</p>
+<h2>How We Leverage Agent Users & Companies</h2>
+<p class="piggyback-subtitle">We win by showing up inside existing agent-native workflows and communities then making Entire the default memory layer.</p>
+</div>
+
+<div class="piggyback-grid">
+<div class="piggyback-card">
+<h3 class="piggyback-title">Integration content</h3>
+<ul class="piggyback-list">
+<li>Using Entire with X (Cursor, Claude Code, Gemini CLI, FactoryAI)</li>
+<li>Workflow-specific tutorials (solo, team, orchestration)</li>
+</ul>
+</div>
+<div class="piggyback-card">
+<h3 class="piggyback-title">Joint events</h3>
+<ul class="piggyback-list">
+<li>Co-hosted meetups with adjacent tools</li>
+<li>Workshops that teach real builds end-to-end</li>
+</ul>
+</div>
+<div class="piggyback-card">
+<h3 class="piggyback-title">Livestream leverage</h3>
+<ul class="piggyback-list">
+<li>AI leader interviews (credibility + reach)</li>
+<li>Community showcases (users demo what they built)</li>
+</ul>
+</div>
+<div class="piggyback-card">
+<h3 class="piggyback-title">Ecosystem positioning</h3>
+<ul class="piggyback-list">
+<li>Engage in the agent workflow community daily</li>
+<li>Partnerships that bring Entire into the flow</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+
+<section class="slide" data-slide="5">
+ <div class="slide-partnerships">
+ <div class="partnerships-header">
+ <p class="label">Partnerships</p>
+ <h2>Partner Content Opportunities</h2>
+ <p class="partnerships-quote">"Partner with the tools our audience already uses."</p>
+ </div>
+ <div class="partners-grid">
+ <div class="partner-card">
+ <div class="partner-type">AI Labs</div>
+ <div class="partner-examples">Anthropic, Google</div>
+ <div class="partner-angle"><span class="angle-label">Content Angle:</span> Interviews, co-marketing, reach</div>
+ </div>
+ <div class="partner-card">
+ <div class="partner-type">Orchestration Tools</div>
+ <div class="partner-examples">Beads, Gastown</div>
+ <div class="partner-angle"><span class="angle-label">Content Angle:</span> Integration tutorials, joint content</div>
+ </div>
+ <div class="partner-card">
+ <div class="partner-type">Adjacent Infra</div>
+ <div class="partner-examples">Rootly, etc.</div>
+ <div class="partner-angle"><span class="angle-label">Content Angle:</span> Co-hosted meetups, workshops</div>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ 
+
+<!-- ===========================================
+SLIDE: EDUCATION PLATFORM DISTRIBUTION
+=========================================== -->
+<section class="slide" data-slide="6">
+<div class="slide-education">
+<div class="edu-header">
+<p class="label">Education Distribution</p>
+<h2>Reach Developers We Don't Yet Own</h2>
+<p class="edu-subtitle">Pitch an Entire course on a major education platform (like O'Reilly) to reach enterprise developers and builders actively upskilling. A living course that keeps growing and gets updated as Entire evolves.</p>
+</div>
+
+<div class="edu-grid">
+<div class="edu-card">
+<div class="edu-icon">🎯</div>
+<h3 class="edu-title">Why an education platform</h3>
+<p class="edu-desc">Built-in distribution. Their community members become our users without us having to build the audience from scratch.</p>
+</div>
+<div class="edu-card">
+<div class="edu-icon">♻️</div>
+<h3 class="edu-title">A living course</h3>
+<p class="edu-desc">Not a one-time launch. The course grows chapter by chapter as we ship content, and gets updated with each major release.</p>
+</div>
+</div>
+
+<div class="edu-note">
+<span class="edu-note-strong">Content engine tie-in:</span> the "Mastering Entire" learning path feeds directly into the course. Workshops become modules. Tutorials become lessons.
+</div>
+</div>
+</section>
+
+
+<section class="slide" data-slide="7">
+ <div class="slide-docs">
+ <div class="docs-header">
+ <p class="label">Pillar 1</p>
+ <h2>Documentation</h2>
+ <p class="docs-subtitle">While less glamorous than livestreams or content, documentation is a <strong>top priority</strong>. It's the front door to Entire and the first thing people go to when they want to use the product. Good docs can make or break adoption.</p>
+ </div>
+ <div class="docs-content">
+ <div class="docs-principles">
+ <div class="docs-principle">
+ <span class="principle-icon">📦</span>
+ <span class="principle-text">Updated with each release</span>
+ </div>
+ <div class="docs-principle">
+ <span class="principle-icon">✓</span>
+ <span class="principle-text">Covers all features</span>
+ </div>
+ <div class="docs-principle">
+ <span class="principle-icon">🗂</span>
+ <span class="principle-text">Organized by workflow type</span>
+ </div>
+ </div>
+ <div class="workflow-types">
+ <div class="workflow-item">
+ <span class="workflow-label">Single agent</span>
+ <span class="workflow-desc">Claude Code, Cursor, Gemini CLI, OpenCode, FactoryAI. Users maybe using MCP</span>
+ </div>
+ <div class="workflow-item">
+ <span class="workflow-label">Multi-agent (2-5)</span>
+ <span class="workflow-desc">Multiple agents working on related tasks. Users maybe using Beads</span>
+ </div>
+ <div class="workflow-item">
+ <span class="workflow-label">Orchestration (10+)</span>
+ <span class="workflow-desc">Gastown, Ralph Wiggum loops. How Entire tracks activity and decisions at scale</span>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
+
+
+  
+
+<section class="slide" data-slide="8">
+  <div class="slide-docs-ai">
+  <div class="docs-ai-header">
+  <p class="label">Docs (Agent Era)</p>
+  <h2>AI-Native, Agent-Ready Documentation</h2>
+  <p class="docs-ai-subtitle">Humans read docs, but increasingly, agents and LLMs are the ones finding answers. Make documentation easy to retrieve, quote, and compile into prompts, so people get correct answers even when they never open the page.</p>
+  </div>
+
+  <div class="docs-ai-content">
+  <div class="docs-ai-links">
+  <a class="docs-ai-link" href="https://leerob.com/docs#ai-native" target="_blank" rel="noopener noreferrer">
+  <span class="docs-ai-link-title">AI-native docs</span>
+  <span class="docs-ai-link-desc">Design for LLM consumption and retrieval, not just human browsing.</span>
+  </a>
+
+  <a class="docs-ai-link" href="https://leerob.com/docs#agent-ready" target="_blank" rel="noopener noreferrer">
+  <span class="docs-ai-link-title">Agent-ready docs</span>
+  <span class="docs-ai-link-desc">Make docs easy for tools and agents to navigate and use as source-of-truth.</span>
+  </a>
+  </div>
+
+  <div class="docs-ai-list">
+  <div class="docs-ai-item">
+  <span class="docs-ai-bullet">→</span>
+  <span class="docs-ai-text">Make it easy to copy/paste content into AI chatbots as Markdown.</span>
+  </div>
+  <div class="docs-ai-item">
+  <span class="docs-ai-bullet">→</span>
+  <span class="docs-ai-text">Support viewing pages as Markdown (for example, add <strong>.md</strong> to the URL).</span>
+  </div>
+  <div class="docs-ai-item">
+  <span class="docs-ai-bullet">→</span>
+  <span class="docs-ai-text">Serve an <strong>llms.txt</strong> file as a directory of Markdown files.</span>
+  </div>
+  </div>
+  </div>
+  </div>
+  </section>
+
+<!-- ===========================================
+SLIDE: LEARNING PATH / COURSE
+=========================================== -->
+<section class="slide" data-slide="9">
+<div class="slide-learning-path">
+<div class="lp-header">
+<p class="label">Education</p>
+<h2>The "Mastering Entire" Learning Path</h2>
+<p class="lp-subtitle">A workflow guide in the docs that takes developers from zero to hero. Each chapter becomes a workshop, a tutorial, and a set of clips.</p>
+</div>
+
+<div class="lp-flow">
+<div class="lp-step">
+<div class="lp-step-num">1</div>
+<div class="lp-step-content">
+<div class="lp-step-title">Quick Start</div>
+<div class="lp-step-desc">Install, connect your first agent, capture your first session.</div>
+</div>
+</div>
+<div class="lp-step">
+<div class="lp-step-num">2</div>
+<div class="lp-step-content">
+<div class="lp-step-title">Individual Agent Tracking</div>
+<div class="lp-step-desc">Day-to-day usage with Cursor, Claude Code, or Gemini CLI.</div>
+</div>
+</div>
+<div class="lp-step">
+<div class="lp-step-num">3</div>
+<div class="lp-step-content">
+<div class="lp-step-title">Multi-Agent Orchestration</div>
+<div class="lp-step-desc">2-5 agents working together. Beads, handoffs, shared context.</div>
+</div>
+</div>
+<div class="lp-step">
+<div class="lp-step-num">4</div>
+<div class="lp-step-content">
+<div class="lp-step-title">Advanced Observability</div>
+<div class="lp-step-desc">10+ agents at scale. Gastown, decision tracking, full orchestration.</div>
+</div>
+</div>
+</div>
+
+<div class="lp-note">
+<span class="lp-note-strong">Content engine:</span> each chapter feeds a livestream workshop, a blog/tutorial, and 1-minute "Entire + X" clips.
+</div>
+</div>
+</section>
+
+<section class="slide" data-slide="10">
+ <div class="slide-video">
+ <div class="video-header">
+ <p class="label">Pillar 2</p>
+ <h2>Video Content</h2>
+ <p class="video-note">Video content tends to get the most traction across all formats.</p>
+ </div>
+ <div class="video-grid">
+ <div class="video-card tutorials">
+ <div class="video-icon">🎬</div>
+ <h3 class="video-type">Tutorials</h3>
+ <p class="video-purpose">Evergreen "how to" content (YouTube)</p>
+ </div>
+ <div class="video-card shorts">
+ <div class="video-icon">⚡</div>
+ <h3 class="video-type">Shorts</h3>
+ <p class="video-purpose">Clips from streams, "did you know?" moments, quick tips</p>
+ </div>
+ </div>
+ <div class="shorts-categories">
+ <p class="categories-title">Short categories:</p>
+ <div class="categories-list">
+ <div class="category-item">
+ <span class="category-bullet">→</span>
+ <span class="category-text">How to do X with Entire</span>
+ </div>
+ <div class="category-item">
+ <span class="category-bullet">→</span>
+ <span class="category-text">Setup tutorials (Claude Code, Gemini, FactoryAI, etc.)</span>
+ </div>
+ <div class="category-item">
+ <span class="category-bullet">→</span>
+ <span class="category-text">"Did you know?" moments showing surprising things Entire captures</span>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ 
+
+<section class="slide" data-slide="11">
+ <div class="slide-livestreams">
+ <div class="livestreams-header">
+ <p class="label">Pillar 3</p>
+ <h2>Livestreams</h2>
+ </div>
+ <div class="livestreams-grid">
+ <div class="livestream-card">
+ <div class="livestream-type">Workshops</div>
+ <div class="livestream-format">"Build X with Entire" live, interactive, viewers follow along</div>
+ <div class="livestream-goal"><span class="goal-label">Goal:</span> Adoption, education</div>
+ </div>
+ <div class="livestream-card">
+ <div class="livestream-type">Community Showcases</div>
+ <div class="livestream-format">Users show what they built with Entire</div>
+ <div class="livestream-goal"><span class="goal-label">Goal:</span> Social proof, community engagement</div>
+ </div>
+ <div class="livestream-card featured">
+ <div class="livestream-type">AI Leader Interviews</div>
+ <div class="livestream-format">Interview-style conversations with engineers/leaders from Anthropic, Google, etc.</div>
+ <div class="livestream-goal"><span class="goal-label">Goal:</span> Brand positioning, credibility, audience growth</div>
+ </div>
+ </div>
+ <div class="interviews-benefits">
+ <p class="benefits-title">Why AI Leader Interviews benefit Entire:</p>
+ <div class="benefits-list">
+ <span class="benefit">Credibility by association</span>
+ <span class="benefit">Reach (they share, their audience discovers Entire)</span>
+ <span class="benefit">Positioning (Entire becomes the hub for agent-era thinking)</span>
+ <span class="benefit">Relationships (opens doors for partnerships, integrations, co-marketing)</span>
+ </div>
+ <p class="benefits-note">This can help build our brand. It's top of funnel content that brings people into Entire's world.</p>
+ </div>
+ </div>
+ </section>
+
+ 
+
+<section class="slide" data-slide="12">
+ <div class="slide-blog">
+ <div class="blog-header">
+ <p class="label">Pillar 4</p>
+ <h2>Blog Posts</h2>
+ <p class="blog-subtitle">Blog posts use problem-aware titles to hook readers, then deliver solution-aware content.</p>
+ </div>
+ <div class="blog-examples">
+ <p class="examples-title">Examples:</p>
+ <div class="example-posts">
+ <div class="example-post">
+ <span class="post-title">"Rethinking the Software Development Lifecycle"</span>
+ </div>
+ <div class="example-post">
+ <span class="post-title">"Why Developers Hate Reviewing PRs"</span>
+ </div>
+ <div class="example-post">
+ <span class="post-title">"Should You Accept PRs from Agents in Open Source?"</span>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ 
+
+<section class="slide" data-slide="13">
+ <div class="slide-repurpose">
+ <div class="repurpose-header">
+ <p class="label">Pillar 5</p>
+ <h2>Content Repurposing</h2>
+ <p class="repurpose-quote">"Create once, distribute everywhere."</p>
+ </div>
+ <div class="repurpose-content">
+ <p class="repurpose-intro">Take one idea and turn it into multiple formats.</p>
+ <div class="repurpose-flow">
+ <div class="flow-source">
+ <span class="flow-label">Topic</span>
+ <span class="flow-title">"How Entire Tracks Orchestration Workflows"</span>
+ </div>
+ <div class="flow-arrow">→</div>
+ <div class="flow-outputs">
+ <div class="flow-output">Blog post <span class="output-detail">(deep dive, SEO)</span></div>
+ <div class="flow-output">Livestream workshop <span class="output-detail">(build it live)</span></div>
+ <div class="flow-output">YouTube tutorial <span class="output-detail">(edited version)</span></div>
+ <div class="flow-output">2-3 shorts <span class="output-detail">(clips)</span></div>
+ <div class="flow-output">Twitter thread <span class="output-detail">(key takeaways)</span></div>
+ </div>
+ </div>
+ <p class="repurpose-note">Blog posts and videos are reusable. Same topic, different format.</p>
+ </div>
+ </div>
+ </section>
+
+ 
+
+<section class="slide" data-slide="14">
+ <div class="slide-community">
+ <div class="community-header">
+ <p class="label">Community</p>
+ <h2>Discord & Socials</h2>
+ <p class="community-quote">"A place to hang out, not just get help."</p>
+ </div>
+ <div class="community-grid">
+ <div class="community-section discord">
+ <h3 class="section-title">Discord Structure</h3>
+ <p class="section-subtitle">Transform Discord from a support desk into a hangout space.</p>
+ <div class="channel-list">
+ <div class="channel"><span class="channel-name">#welcome</span> <span class="channel-desc">Intro, rules, how to get started</span></div>
+ <div class="channel"><span class="channel-name">#announcements</span> <span class="channel-desc">Releases, news (read-only)</span></div>
+ <div class="channel"><span class="channel-name">#general</span> <span class="channel-desc">Main chat, casual conversation</span></div>
+ <div class="channel highlight"><span class="channel-name">#ask-ai</span> <span class="channel-desc">AI bot that combs code & docs to answer questions (reduces support load)</span></div>
+ <div class="channel"><span class="channel-name">#help</span> <span class="channel-desc">"How do I do X?" human support questions</span></div>
+ <div class="channel"><span class="channel-name">#feature-requests</span> <span class="channel-desc">Product feedback</span></div>
+ <div class="channel highlight"><span class="channel-name">#share-your-work</span> <span class="channel-desc">Show what you built, sessions you captured</span></div>
+ <div class="channel highlight"><span class="channel-name">#ecosystem</span> <span class="channel-desc">Talk about agents, MCP, orchestration tools</span></div>
+ <div class="channel"><span class="channel-name">#off-topic</span> <span class="channel-desc">Memes, random, human stuff</span></div>
+ </div>
+ </div>
+ <div class="community-section twitter">
+ <h3 class="section-title">Socials</h3>
+ <div class="twitter-points">
+ <div class="twitter-point">Daily engagement</div>
+ <div class="twitter-point">Share clips, learnings, experiments</div>
+ <div class="twitter-point">Participate in conversations, don't just broadcast</div>
+ <div class="twitter-point">Engage with the agentic workflow community (MCP, Beads, orchestration crowd)</div>
+ </div>
+ <div class="why-matters">
+ <p class="why-title">Why this matters:</p>
+ <p class="why-item"><span class="highlight">#ecosystem</span> makes Entire the hub for agent conversations</p>
+ <p class="why-item"><span class="highlight">#share-your-work</span> generates content & identifies champions</p>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ 
+
+<section class="slide" data-slide="15">
+ <div class="slide-ask-ai">
+ <div class="ask-ai-header">
+ <p class="label">Community Automation</p>
+ <h2>#ask-ai Discord Bot</h2>
+ <p class="ask-ai-subtitle">Users choose AI help for convenience not forced on them. If they prefer a human, #help is always there.</p>
+ </div>
+ <div class="ask-ai-content">
+ <div class="ask-ai-how">
+ <h3 class="how-title">How it works</h3>
+ <div class="how-steps">
+ <div class="how-step">
+ <span class="step-number">1</span>
+ <span class="step-text">User asks a question in <span class="highlight">#ask-ai</span></span>
+ </div>
+ <div class="how-step">
+ <span class="step-number">2</span>
+ <span class="step-text">AI bot searches through codebase and documentation</span>
+ </div>
+ <div class="how-step">
+ <span class="step-number">3</span>
+ <span class="step-text">Bot responds with relevant answers, code snippets, and doc links</span>
+ </div>
+ <div class="how-step">
+ <span class="step-number">4</span>
+ <span class="step-text">If unresolved, user can escalate to <span class="highlight">#help</span> for human support</span>
+ </div>
+ </div>
+ </div>
+ <div class="ask-ai-benefits">
+ <h3 class="benefits-heading">Why this matters</h3>
+ <div class="benefit-items">
+ <div class="benefit-item">
+ <span class="benefit-icon">✋</span>
+ <span class="benefit-text">User chooses AI it's opt-in, not forced</span>
+ </div>
+ <div class="benefit-item">
+ <span class="benefit-icon">⚡</span>
+ <span class="benefit-text">Instant answers no waiting for team availability</span>
+ </div>
+ <div class="benefit-item">
+ <span class="benefit-icon">🌍</span>
+ <span class="benefit-text">24/7 coverage across all time zones</span>
+ </div>
+ <div class="benefit-item">
+ <span class="benefit-icon">🎯</span>
+ <span class="benefit-text">Frees up team for high-value community work</span>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ 
+
+<section class="slide" data-slide="16">
+<div class="slide-field">
+<div class="field-header">
+<p class="label">Field Strategy</p>
+<h2>California + East Coast Coverage</h2>
+<p class="field-subtitle">One DevRel in California for fast ecosystem response. One on the East Coast for coverage and different networks. Both converge for major conferences.</p>
+</div>
+
+<div class="field-grid">
+<div class="field-card">
+<h3 class="field-title">California-based DevRel</h3>
+<ul class="field-list">
+<li>Jump on short-notice meetups and partner moments</li>
+<li>Run a repeatable Bay Area cadence (builder night + workshops)</li>
+<li>Broader than SF: optimize for California talent + density</li>
+</ul>
+</div>
+<div class="field-card">
+<h3 class="field-title">East Coast DevRel</h3>
+<ul class="field-list">
+<li>Time zone coverage + different community graph</li>
+<li>More touchpoints with NY/BOS/DC tech circles</li>
+<li>Parallel cadence: meetups + workshops + office hours</li>
+</ul>
+</div>
+</div>
+
+<div class="field-note">
+<span class="field-note-strong">Key idea:</span> turn our field playbook into a template ambassadors can copy locally.
+</div>
+</div>
+</section>
+
+
+<section class="slide" data-slide="17">
+ <div class="slide-events">
+ <div class="events-header">
+ <p class="label">Conferences & Events</p>
+ <h2>Show Up Where They Are</h2>
+ <p class="events-target"><strong>Target:</strong> AI-focused conferences, especially <a class="highlight" href="https://www.ai.engineer/" target="_blank" rel="noopener noreferrer">AI Engineering Summit</a> (swyx). That's the priority.</p>
+ </div>
+ <div class="events-grid">
+ <div class="event-card">
+ <div class="event-icon">🎤</div>
+ <h3 class="event-type">Speaking</h3>
+ <p class="event-desc">Conferences like AI Engineering Summit</p>
+ </div>
+ <div class="event-card">
+ <div class="event-icon">🛠</div>
+ <h3 class="event-type">Meetups / Workshops</h3>
+ <p class="event-desc">While at a major AI conference, host educational hands-on sessions. Collaborate with adjacent tools (Rootly, etc.)</p>
+ </div>
+ <div class="event-card">
+ <div class="event-icon">🍸</div>
+ <h3 class="event-type">Sponsored Social Events</h3>
+ <p class="event-desc">While at a major AI conference, rent a bar for good vibes and brand visibility. "This event sponsored by EntireHQ"</p>
+ </div>
+ </div>
+ <div class="events-note">
+ <p>When attending big AI conferences with lots of traction, maximize presence by hosting either a workshop or social event. Workshops/Meetups build credibility, social events build brand and relationships.</p>
+ </div>
+ </div>
+ </section>
+
+ 
+
+<section class="slide" data-slide="18">
+<div class="slide-ambassadors">
+<div class="amb-header">
+<p class="label">Ambassadors</p>
+<h2>From Contributors to Meetup Hosts</h2>
+<p class="amb-subtitle">We identify real builders, spotlight them, then equip them to represent Entire locally through a formal application process.</p>
+</div>
+
+<div class="amb-content">
+<div class="amb-left">
+<div class="amb-flow">
+<div class="amb-step">
+<div class="amb-step-title">1 Identify</div>
+<div class="amb-step-body">Code contributors, #share-your-work builders, consistent community helpers.</div>
+</div>
+<div class="amb-step">
+<div class="amb-step-title">2 Spotlight</div>
+<div class="amb-step-body">Livestream showcases where they demo what they built with Entire.</div>
+</div>
+<div class="amb-step">
+<div class="amb-step-title">3 Apply</div>
+<div class="amb-step-body">Open application form. We review for fit, activity, and regional coverage.</div>
+</div>
+<div class="amb-step">
+<div class="amb-step-title">4 Activate</div>
+<div class="amb-step-body">Run local meetups, speak at conferences, write content, host workshops.</div>
+</div>
+</div>
+</div>
+
+<div class="amb-right">
+<div class="amb-requirements">
+<div class="amb-req-title">Requirements</div>
+<ul class="amb-req-list">
+<li>Active Entire user with a public project or contribution</li>
+<li>History of community participation (Discord, GitHub, socials)</li>
+<li>Willingness to host or speak at least once per quarter</li>
+<li>Located in a city/region where Entire needs presence</li>
+</ul>
+</div>
+
+<div class="amb-perks">
+<div class="amb-perks-title">What ambassadors get</div>
+<ul class="amb-perks-list">
+<li>Event budget + sponsorship for local meetups</li>
+<li>Swag, slide templates, workshop repos, and a meetup kit</li>
+<li>Direct line to the Entire team + early access to features</li>
+<li>Co-promotion on Entire socials and ambassador spotlight page</li>
+<li>Conference speaking support + introductions</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+
+<section class="slide" data-slide="19">
+ <div class="slide-ops">
+ <div class="ops-header">
+ <p class="label">Operational Efficiency</p>
+ <h2>Automated Releases</h2>
+ <p class="ops-quote">"Automate the boring stuff. Focus on what moves the needle."</p>
+ </div>
+ <div class="ops-content">
+ <div class="ops-flow">
+ <div class="ops-trigger">
+ <span class="trigger-label">New Release</span>
+ </div>
+ <div class="ops-arrow">↓</div>
+ <div class="ops-outputs">
+ <div class="ops-output auto">
+ <span class="output-name">Discord announcement</span>
+ <span class="output-tag">auto</span>
+ </div>
+ <div class="ops-output auto">
+ <span class="output-name">Blog post</span>
+ <span class="output-detail">auto-generated from changelog, human review, publish</span>
+ </div>
+ <div class="ops-output auto">
+ <span class="output-name">Twitter/socials</span>
+ <span class="output-tag">auto</span>
+ </div>
+ <div class="ops-output manual">
+ <span class="output-name">Docs update</span>
+ <span class="output-detail">manual, tied to feature</span>
+ </div>
+ </div>
+ </div>
+ <div class="ops-breakdown">
+ <div class="breakdown-section ai">
+ <h4 class="breakdown-title">What AI handles:</h4>
+ <ul class="breakdown-list">
+ <li>Generate announcement copy from release notes</li>
+ <li>Format for each platform (Discord longer, Twitter punchy)</li>
+ <li>Post or queue for review</li>
+ </ul>
+ </div>
+ <div class="breakdown-section human">
+ <h4 class="breakdown-title">What stays human:</h4>
+ <ul class="breakdown-list">
+ <li>Docs (needs accuracy)</li>
+ <li>High-level content (blogs, videos, livestreams)</li>
+ <li>Community engagement (replies, conversations)</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ 
+
+<section class="slide" data-slide="20">
+ <div class="slide-summary">
+ <div class="summary-header">
+ <p class="label">Summary</p>
+ <h2>The Strategy at a Glance</h2>
+ </div>
+ <div class="summary-grid">
+ <div class="summary-item">
+ <span class="summary-pillar">Digital Engagement</span>
+ <span class="summary-focus">Docs + content + Discord + socials as one loop: discover, build, share, amplify.</span>
+ </div>
+ <div class="summary-item">
+ <span class="summary-pillar">Docs</span>
+ <span class="summary-focus">A <strong>top priority</strong>, plus AI-native patterns (Markdown, llms.txt, agent-ready).</span>
+ </div>
+ <div class="summary-item">
+ <span class="summary-pillar">Ecosystem Distribution</span>
+ <span class="summary-focus">Integrations + joint events + ecosystem content that rides existing agent workflows.</span>
+ </div>
+ <div class="summary-item">
+ <span class="summary-pillar">Regional Presence</span>
+ <span class="summary-focus">San Francisco + East Coast coverage for fast local moments and broader network reach.</span>
+ </div>
+ <div class="summary-item">
+ <span class="summary-pillar">Ambassadors</span>
+ <span class="summary-focus">Identify builders, spotlight them, then equip them to run meetups for us.</span>
+ </div>
+ <div class="summary-item">
+ <span class="summary-pillar">Automation</span>
+ <span class="summary-focus">Release announcements automated. Free up the team for high-value work.</span>
+ </div>
+</div>
+</div>
+</section>
+
+ <!-- ===========================================
+ JAVASCRIPT: SLIDE CONTROLLER
+ =========================================== -->
+ <script>
+ class SlidePresentation {
+ constructor() {
+ this.slides = document.querySelectorAll('.slide');
+ this.navDots = document.querySelector('.nav-dots');
+ this.progressBar = document.querySelector('.progress-bar');
+ this.currentSlide = 0;
+ 
+ this.init();
+ }
+
+ init() {
+ this.createNavDots();
+ this.setupIntersectionObserver();
+ this.setupKeyboardNav();
+ this.updateProgress();
+ }
+
+ createNavDots() {
+ this.slides.forEach((_, index) => {
+ const dot = document.createElement('div');
+ dot.className = 'nav-dot' + (index === 0 ? ' active' : '');
+ dot.addEventListener('click', () => this.goToSlide(index));
+ this.navDots.appendChild(dot);
+ });
+ }
+
+ setupIntersectionObserver() {
+ const observer = new IntersectionObserver((entries) => {
+ entries.forEach(entry => {
+ if (entry.isIntersecting) {
+ entry.target.classList.add('visible');
+ const slideIndex = Array.from(this.slides).indexOf(entry.target);
+ this.currentSlide = slideIndex;
+ this.updateNavDots();
+ this.updateProgress();
+ }
+ });
+ }, { threshold: 0.5 });
+
+ this.slides.forEach(slide => observer.observe(slide));
+ }
+
+ setupKeyboardNav() {
+ document.addEventListener('keydown', (e) => {
+ if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+ e.preventDefault();
+ this.nextSlide();
+ } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+ e.preventDefault();
+ this.prevSlide();
+ }
+ });
+ }
+
+ goToSlide(index) {
+ this.slides[index].scrollIntoView({ behavior: 'smooth' });
+ }
+
+ nextSlide() {
+ if (this.currentSlide < this.slides.length - 1) {
+ this.goToSlide(this.currentSlide + 1);
+ }
+ }
+
+ prevSlide() {
+ if (this.currentSlide > 0) {
+ this.goToSlide(this.currentSlide - 1);
+ }
+ }
+
+ updateNavDots() {
+ const dots = this.navDots.querySelectorAll('.nav-dot');
+ dots.forEach((dot, index) => {
+ dot.classList.toggle('active', index === this.currentSlide);
+ });
+ }
+
+ updateProgress() {
+ const progress = ((this.currentSlide + 1) / this.slides.length) * 100;
+ this.progressBar.style.width = `${progress}%`;
+ }
+ }
+
+ // Initialize
+ new SlidePresentation();
+ </script>
+</body>
+</html>
